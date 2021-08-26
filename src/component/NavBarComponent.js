@@ -2,12 +2,46 @@ import '../css/NavBarComponent.css'
 import {Button, Container, Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react'
-import {MdSearch, MdMusicNote} from 'react-icons/md'
+import {MdSearch, MdMusicNote, MdDelete} from 'react-icons/md'
 
 import {
- NavLink
+    NavLink, useHistory
 } from "react-router-dom";
+import {useAuthUser, useIsAuthenticated, useSignIn, useSignOut} from "react-auth-kit";
+
+
 function NavBarComponent() {
+
+    const isAuthenticated = useIsAuthenticated()
+    let authCheck = isAuthenticated();
+    const auth = useAuthUser()
+    const signOut = useSignOut()
+    let history = useHistory();
+
+    let content;
+    console.log(authCheck);
+    if (authCheck) {
+        content =
+            <>
+                <Nav.Link disabled className={"text-success"}>
+                    Hello {auth().name}
+                </Nav.Link>
+                <Button variant="outline-danger" onClick={()=>{signOut(); history.push('/artists')}}>Logout</Button>
+            </>
+                } else {
+
+        content =
+            <>
+                <Nav.Link as={NavLink} to='/signIn'>
+                    Log In
+                </Nav.Link>
+                <Nav.Link as={NavLink} to='/register'>
+                    Register
+                </Nav.Link>
+            </>
+
+
+    }
     return (
 
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -18,6 +52,7 @@ function NavBarComponent() {
                         <Nav className="me-auto">
                             <Nav.Link as={NavLink} to='/library'>Library</Nav.Link>
                             <Nav.Link as={NavLink} to='/artists'>Artists</Nav.Link>
+                            <Nav.Link as={NavLink} to='/songs'>Songs</Nav.Link>
                             <Form className="d-flex">
                                 <FormControl
                                     as="input"
@@ -38,10 +73,9 @@ function NavBarComponent() {
                             {/*</NavDropdown>*/}
                         </Nav>
                         <Nav>
-                            <Nav.Link href="#deets">Log In</Nav.Link>
-                            <Nav.Link eventKey={2} href="#memes">
-                                Register
-                            </Nav.Link>
+                            {content}
+
+
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -51,6 +85,6 @@ function NavBarComponent() {
 
 
     );
-};
+}
 
 export default NavBarComponent;

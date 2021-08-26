@@ -1,19 +1,18 @@
-import {Button, Card, Col, Container, Row} from "react-bootstrap";
+import {Button, Card, CardGroup, Col, ListGroup, Row} from "react-bootstrap";
 import React from "react";
-import fakeDatafn from '../services/fakeArtist'
-import artistService from "../services/artistService";
-import ArtistListDisplayComponent from "./ArtistListDisplayComponent";
-import PaginationComponent from "./PaginationComponent";
+import {MdPlayArrow, MdAddToQueue} from 'react-icons/md'
+import SongListDisplayComponent from "./SongListDisplayComponent";
+import songService from "../services/songService";
 import SearchConfigComponent from "./SearchConfigComponent";
-import {withAuthHeader} from "react-auth-kit";
+import PaginationComponent from "./PaginationComponent";
 
+export default class SongListComponentWithPagination extends React.Component{
 
-class ArtistListComponentWithPagination extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            artistList : [],
+            songList : [],
             currentIndex: -1,
             searchTitle: "",
 
@@ -24,7 +23,7 @@ class ArtistListComponentWithPagination extends React.Component {
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
         this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
-        this.retrieveArtistList = this.retrieveArtistList.bind(this);
+        this.retrieveSongList = this.retrieveSongList.bind(this);
     }
 
     onChangeSearchTitle(e) {
@@ -53,18 +52,20 @@ class ArtistListComponentWithPagination extends React.Component {
         return params;
     }
 
-    retrieveArtistList() {
+    retrieveSongList() {
 
         const { searchTitle, page, pageSize } = this.state;
         const params = this.getRequestParams(searchTitle, page, pageSize);
 
-        artistService.getArtistList(params, this.props.authHeader)
+        songService.getSongList(params, this.props.authHeader)
             .then((response) => {
-                const { artistList, totalPages } = response.data;
+                console.log(response);
+                const { songList, totalPages } = response.data;
 
                 this.setState({
-                    artistList: artistList,
+                    songList: songList,
                     count: totalPages,
+                    // songList: response.data
                 });
                 // console.log(response.data);
             })
@@ -80,14 +81,13 @@ class ArtistListComponentWithPagination extends React.Component {
                 page: value,
             },
             () => {
-                this.retrieveArtistList();
+                this.retrieveSongList();
             }
         );
     }
 
     componentDidMount() {
-        // this.setState({artistList: fakeDatafn()}
-        this.retrieveArtistList();
+        this.retrieveSongList();
     }
 
     handlePageSizeChange(event) {
@@ -97,25 +97,27 @@ class ArtistListComponentWithPagination extends React.Component {
                 page: 1
             },
             () => {
-                this.retrieveArtistList();
+                this.retrieveSongList();
             }
         );
     }
+    render(){
 
-    render() {
-        // let artistList = this.state.artistList;
         return (
             <>
                 <SearchConfigComponent searchTitle={this.state.searchTitle}
                                        onChangeSearchTitle={this.onChangeSearchTitle}
-                                        retrieveList={this.retrieveArtistList}
+                                       retrieveList={this.retrieveSongList}
                                        handlePageSizeChange={this.handlePageSizeChange}
                                        pageSize={this.state.pageSize}
                 />
-                <ArtistListDisplayComponent artistList={this.state.artistList}/>
+                <SongListDisplayComponent songList={this.state.songList} setAudioList={this.props.setAudioList} audioList={this.props.audioList}/>
                 <PaginationComponent count={this.state.count} page={this.state.page} handlePageChange={this.handlePageChange}/>
+                {/*<Button onClick={()=>this.props.setAudio([*/}
+                {/*    { musicSrc: 'https://toantestt.s3.amazonaws.com/TangEmMotBauTroi-LuongGiaHuy-2945059.mp3' },*/}
+                {/*    { musicSrc: 'https://toantestt.s3.amazonaws.com/gg.mp3'}*/}
+                {/*])}>fgsdfgs</Button>*/}
             </>
         )
     }
-};
-export default withAuthHeader(ArtistListComponentWithPagination);
+}

@@ -21,25 +21,7 @@ export default class PaginationComponent extends React.Component {
                 shape="rounded"
                 onChange={this.props.handlePageChange}
             />
-            // <Pagination size={'sm'} className={"d-flex justify-content-center mt-5 "}>
-            //     <Pagination.First/>
-            //     <Pagination.Prev />
-            //     <Pagination.Item>{currentPage}</Pagination.Item>
-            //     <Pagination.Ellipsis disabled/>
-            //
-            //     <Pagination.Item>{currentPage+1}</Pagination.Item>
-            //     <Pagination.Item>{currentPage+2}</Pagination.Item>
-            //     <Pagination.Item active>{currentPage+3}</Pagination.Item>
-            //     <Pagination.Ellipsis disabled/>
-            //
-            //     <Pagination.Item>{currentPage+9}</Pagination.Item>
-            //     <Pagination.Item disabled>{currentPage+10}</Pagination.Item>
-            //
-            //     <Pagination.Ellipsis disabled/>
-            //     <Pagination.Item>{20}</Pagination.Item>
-            //     <Pagination.Next />
-            //     <Pagination.Last />
-            // </Pagination>
+
         )
     }
 }

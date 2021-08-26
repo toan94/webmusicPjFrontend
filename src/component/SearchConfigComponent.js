@@ -24,7 +24,7 @@ export default class SearchConfigComponent extends React.Component {
                             <button
                                 className="btn btn-outline-secondary"
                                 type="button"
-                                onClick={this.props.retrieveArtistList}
+                                onClick={this.props.retrieveList}
                             >
                                 Search
                             </button>
