@@ -5,7 +5,7 @@ export default class SearchConfigComponent extends React.Component {
     constructor(props) {
         super(props);
 
-        this.pageSizes = [3, 6, 9];
+        this.pageSizes = [9,6,3];
     }
     render() {
 

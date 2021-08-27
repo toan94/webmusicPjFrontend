@@ -10,7 +10,7 @@ import NavBarComponent from "./component/NavBarComponent";
 import LibraryComponent from './component/LibraryComponent'
 import {
     Switch,
-    Route
+    Route, useHistory
 } from "react-router-dom";
 import SignInComponent from "./component/SignInComponent";
 import SignOutComponent from "./component/SignOutComponent";
@@ -27,7 +27,7 @@ import PlaylistComponnentWithPagination from "./component/PlaylistComponnentWith
 function App() {
 
 
-
+    const history = useHistory();
     const [audioList, setAudioList] = useState([
         // { musicSrc: 'https://toantestt.s3.amazonaws.com/TangEmMotBauTroi-LuongGiaHuy-2945059.mp3' }
     ])
@@ -65,7 +65,7 @@ function App() {
                                   <SongListComponentWithPagination setAudioList={setAudioList} audioList={audioList} />
                               </Route>
                               <Route path="/myPlaylists">
-                                  <PlaylistComponnentWithPagination setAudioList={setAudioList} audioList={audioList} />
+                                  <PlaylistComponnentWithPagination setAudioList={setAudioList} audioList={audioList} history={history}/>
                               </Route>
                               {/*<Route path="/signOut">*/}
                               {/*    <SignOutComponent />*/}
