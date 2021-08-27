@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// const API_URL = 'http://localhost:8080/api/test/';
 const client = axios.create({baseURL: "http://localhost:8080/api/playlists",
     headers: {"Content-type": "application/json" }});
 
@@ -8,6 +7,16 @@ class playlistService {
     getPlaylistList(params, authHeader) {
         // return axios.get(API_URL + 'artists');
         return client.get("all", {params:params, headers: {"Authorization": authHeader}});
+    }
+
+    getPlaylistListNoPaging(params, authHeader) {
+        // return axios.get(API_URL + 'artists');
+        params.noPaging = "true";
+        return client.get("all", {params:params, headers: {"Authorization": authHeader}});
+    }
+
+    createNewPlaylist(name, authHeader) {
+        return client.post("create",{name: name},{headers: {"Authorization": authHeader}});
     }
 
     // getUserBoard() {

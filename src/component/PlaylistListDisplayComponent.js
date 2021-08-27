@@ -1,10 +1,12 @@
 import {Button, Card, Col, Container, Dropdown, Form, Row, Spinner} from "react-bootstrap";
 import React from "react";
-import {MdAddToQueue, MdPlayArrow} from "react-icons/md";
+import {MdAddToQueue, MdPlayArrow, MdAdd} from "react-icons/md";
 import ReactDOM from 'react-dom';
+import {withAuthHeader} from "react-auth-kit";
+import playlistService from "../services/playlistService";
 
 
-export  default class PlaylistListDisplayComponent extends React.Component {
+class PlaylistListDisplayComponent extends React.Component {
 
     render(){
         let playlistList = this.props.playlistList;
@@ -12,41 +14,66 @@ export  default class PlaylistListDisplayComponent extends React.Component {
         const setAudioList = this.props.setAudioList;
         const audioList = this.props.audioList;
         return (
+            <>
+
+                <button type="button" class="btn btn-outline-dark ms-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <MdAdd/>
+                </button>
+
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Create New Playlist</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <Form onSubmit={
+                                    (e)=>{
+                                        e.preventDefault();
+                                        console.log(e.target.playlistName.value);
+                                        playlistService.createNewPlaylist(e.target.playlistName.value,this.props.authHeader).then((res)=>{
+                                            console.log(res);
+                                        });
+                                    }
+                                }>
+                                    <Form.Group className="mb-3" >
+                                        <Form.Label>Playlist Name</Form.Label>
+                                        <Form.Control type="text" placeholder="New playlist name" name="playlistName"/>
+                                        <Form.Text className="text-muted">
+                                            Enter the name of you new playlist
+                                        </Form.Text>
+                                    </Form.Group>
+
+                                    <Button variant="outline-success" type="submit">
+                                        Create
+                                    </Button>
+                                </Form>
+                            </div>
+                            <div class="modal-footer">
+                                {/*<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>*/}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
             <Row className={"p-2 pt-5 justify-content-start"}>
+
                 {
                     playlistList.map((playlist, index) => (
-                        <Col className={"d-flex justify-content-center p-3 col-md-auto "}>
+                        <Col className={"d-flex justify-content-center p-3 col-md-auto "} key={index}>
                             <Card border="light" style={{ width: '15rem' }} className={""}>
-                                <Card.Header>Artist: <b>{playlist.OwnedUserName}</b></Card.Header>
+                                <Card.Header>Created: <b>{playlist.creationDate}</b></Card.Header>
                                 <Card.Body>
-                                    <Card.Title>{playlist.PlaylistName}</Card.Title>
+                                    <Card.Title>{playlist.playlistName}</Card.Title>
                                 </Card.Body>
                                 <Card.Footer>
                                     <div className="btn-group">
-                                        <Dropdown autoClose="outside" onToggle={(isOpen)=> {
-                                            if (isOpen) {console.log('load list')}
-                                        }}
-                                                  onSelect={(e, obj)=>{
-                                                      console.log(e);
-                                                  }}
-                                        >
-                                            <Dropdown.Toggle  variant="secondary">
-                                                +To Playlist
-                                            </Dropdown.Toggle>
+                                        <Button variant="outline-dark" className={""}>See Detail</Button>
 
-                                            <Dropdown.Menu variant="dark">
-                                                <Dropdown.Item onClick={(e)=>{
-                                                    ReactDOM.render(<Spinner animation="border" />, e.target);
-                                                    setTimeout(()=>ReactDOM.render(<span>"lmao</span>, e.target), 3000);
-                                                }}  eventKey="1 hehe">
-                                                    test playlist
-                                                </Dropdown.Item>
-                                                <Dropdown.Item eventKey="2 hehe">Another action</Dropdown.Item>
-                                                <Dropdown.Item eventKey="3 hehe">Something else</Dropdown.Item>
-                                                <Dropdown.Divider />
-                                                <Dropdown.Item eventKey="4 hehe">Separated link</Dropdown.Item>
-                                            </Dropdown.Menu>
-                                        </Dropdown>
 
                                     </div>
                                 </Card.Footer>
@@ -54,7 +81,9 @@ export  default class PlaylistListDisplayComponent extends React.Component {
                         </Col>
                     ))
                 }
-            </Row>
+            </Row></>
         )
     }
 }
+
+export default withAuthHeader(PlaylistListDisplayComponent);

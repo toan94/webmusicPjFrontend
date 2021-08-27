@@ -20,6 +20,7 @@ import SongListComponentWithPagination from "./component/SongListComponentWithPa
 import {MdDelete} from "react-icons/md";
 import FooterComponent from "./component/FooterComponent";
 import PlaylistListDisplayComponent from "./component/PlaylistListDisplayComponent";
+import PlaylistComponnentWithPagination from "./component/PlaylistComponnentWithPagination";
 // import './scss/custom.scss'
 
 
@@ -64,7 +65,7 @@ function App() {
                                   <SongListComponentWithPagination setAudioList={setAudioList} audioList={audioList} />
                               </Route>
                               <Route path="/myPlaylists">
-                                  <PlaylistListDisplayComponent setAudioList={setAudioList} audioList={audioList} />
+                                  <PlaylistComponnentWithPagination setAudioList={setAudioList} audioList={audioList} />
                               </Route>
                               {/*<Route path="/signOut">*/}
                               {/*    <SignOutComponent />*/}

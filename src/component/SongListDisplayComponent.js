@@ -2,9 +2,25 @@ import {Button, Card, Col, Container, Dropdown, Form, Row, Spinner} from "react-
 import React from "react";
 import {MdAddToQueue, MdPlayArrow} from "react-icons/md";
 import ReactDOM from 'react-dom';
+import {withAuthHeader} from "react-auth-kit";
+import playlistService from "../services/playlistService";
 
 
-export  default class SongListDisplayComponent extends React.Component {
+class SongListDisplayComponent extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            myPlaylists : []
+        }
+    }
+
+    componentDidMount() {
+        playlistService.getPlaylistListNoPaging({}, this.props.authHeader).then((res)=>{
+            this.setState({myPlaylists : res.data.listOfPlaylist});
+            console.log(res);
+        })
+    }
 
     render(){
         let songList = this.props.songList;
@@ -24,7 +40,10 @@ export  default class SongListDisplayComponent extends React.Component {
                                 <Card.Footer>
                                     <div className="btn-group">
                                         <Dropdown autoClose="outside" onToggle={(isOpen)=> {
-                                            if (isOpen) {console.log('load list')}
+                                            if (isOpen) {
+
+                                                console.log('load list')
+                                            }
                                         }}
                                         onSelect={(e, obj)=>{
                                             console.log(e);
@@ -35,14 +54,20 @@ export  default class SongListDisplayComponent extends React.Component {
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu variant="dark">
-                                                <Dropdown.Item onClick={(e)=>{
-                                                    ReactDOM.render(<Spinner animation="border" />, e.target);
-                                                    setTimeout(()=>ReactDOM.render(<span>"lmao</span>, e.target), 3000);
-                                                }}  eventKey="1 hehe">
-                                                    test playlist
-                                                </Dropdown.Item>
-                                                <Dropdown.Item eventKey="2 hehe">Another action</Dropdown.Item>
-                                                <Dropdown.Item eventKey="3 hehe">Something else</Dropdown.Item>
+                                                {/*<Dropdown.Item onClick={(e)=>{*/}
+                                                {/*    ReactDOM.render(<Spinner animation="border" />, e.target);*/}
+                                                {/*    setTimeout(()=>ReactDOM.render(<span>"lmao</span>, e.target), 3000);*/}
+                                                {/*}}  eventKey="1 hehe">*/}
+                                                {/*    test playlist*/}
+                                                {/*</Dropdown.Item>*/}
+                                                {
+                                                        this.state.myPlaylists.map((p)=>(
+                                                        <Dropdown.Item >{p.playlistName}</Dropdown.Item>
+                                                        ))
+
+
+                                                }
+
                                                 <Dropdown.Divider />
                                                 <Dropdown.Item eventKey="4 hehe">Separated link</Dropdown.Item>
                                             </Dropdown.Menu>
@@ -74,3 +99,4 @@ export  default class SongListDisplayComponent extends React.Component {
         )
     }
 }
+export default withAuthHeader(SongListDisplayComponent);

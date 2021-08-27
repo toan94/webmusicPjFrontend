@@ -62,7 +62,7 @@ class ArtistListComponentWithPagination extends React.Component {
         playlistService.getPlaylistList(params, this.props.authHeader)
             .then((response) => {
                 const { listOfPlaylist, totalPages } = response.data;
-
+                console.log(response.data);
                 this.setState({
                     playlistList: listOfPlaylist,
                     count: totalPages,
@@ -88,7 +88,7 @@ class ArtistListComponentWithPagination extends React.Component {
 
     componentDidMount() {
         // this.setState({artistList: fakeDatafn()}
-        this.retrieveArtistList();
+        this.retrievePlaylistList();
     }
 
     handlePageSizeChange(event) {
@@ -98,7 +98,7 @@ class ArtistListComponentWithPagination extends React.Component {
                 page: 1
             },
             () => {
-                this.retrieveArtistList();
+                this.retrievePlaylistList();
             }
         );
     }
