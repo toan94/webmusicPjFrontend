@@ -14,12 +14,12 @@ import {
 } from "react-router-dom";
 import SignInComponent from "./component/SignInComponent";
 import SignOutComponent from "./component/SignOutComponent";
-import ArtistComponent from "./component/ArtistComponent";
 import ArtistListComponentWithPagination from "./component/ArtistListComponentWithPagination";
 import RegisterComponent from "./component/RegisterComponent";
 import SongListComponentWithPagination from "./component/SongListComponentWithPagination";
 import {MdDelete} from "react-icons/md";
 import FooterComponent from "./component/FooterComponent";
+import PlaylistListDisplayComponent from "./component/PlaylistListDisplayComponent";
 // import './scss/custom.scss'
 
 
@@ -62,6 +62,9 @@ function App() {
                               </Route>
                               <Route path="/songs">
                                   <SongListComponentWithPagination setAudioList={setAudioList} audioList={audioList} />
+                              </Route>
+                              <Route path="/myPlaylists">
+                                  <PlaylistListDisplayComponent setAudioList={setAudioList} audioList={audioList} />
                               </Route>
                               {/*<Route path="/signOut">*/}
                               {/*    <SignOutComponent />*/}

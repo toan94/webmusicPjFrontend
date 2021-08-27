@@ -29,7 +29,7 @@ function NavBarComponent() {
                     menuVariant="dark" className={"text-center"}>
 
                     <NavDropdown.Item>Your Songs</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">You Playlists</NavDropdown.Item>
+                    <NavDropdown.Item as={NavLink} to='/myPlaylists'>Your Playlists</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.3">Profile</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item onClick={()=>{signOut(); history.push('/artists')}} className={"text-danger"}>
