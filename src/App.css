@@ -42,6 +42,11 @@
   background-color: transparent;
   overflow: visible;
 }
+.MyListGroup .list-group-item.active {
+  background-color: darkgreen;
+  border-color: darkgreen;
+}
+
 
 /*.react-jinke-music-player-main .music-player-panel {*/
 /*  background-color: rgb(33 37 41) ;*/

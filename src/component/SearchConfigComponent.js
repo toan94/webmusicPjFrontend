@@ -16,7 +16,7 @@ export default class SearchConfigComponent extends React.Component {
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="Search By Artist Name"
+                            placeholder="Search By Name"
                             value={this.props.searchTitle}
                             onChange={this.props.onChangeSearchTitle}
                         />

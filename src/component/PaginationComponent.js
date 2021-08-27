@@ -1,6 +1,5 @@
 // import {Pagination} from "react-bootstrap";
 import React from 'react'
-import '../css/paginationStyle.scss'
 import {Pagination} from "@material-ui/lab";
 import artistService from "../services/artistService";
 

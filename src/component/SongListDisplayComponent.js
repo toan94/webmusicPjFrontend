@@ -1,6 +1,8 @@
-import {Button, Card, Col, Dropdown, Row} from "react-bootstrap";
+import {Button, Card, Col, Container, Dropdown, Form, Row, Spinner} from "react-bootstrap";
 import React from "react";
 import {MdAddToQueue, MdPlayArrow} from "react-icons/md";
+import ReactDOM from 'react-dom';
+
 
 export  default class SongListDisplayComponent extends React.Component {
 
@@ -11,7 +13,6 @@ export  default class SongListDisplayComponent extends React.Component {
         const audioList = this.props.audioList;
         return (
             <Row className={"p-2 pt-5 justify-content-start"}>
-
                 {
                     songList.map((song, index) => (
                         <Col className={"d-flex justify-content-center p-3 col-md-auto "}>
@@ -22,19 +23,28 @@ export  default class SongListDisplayComponent extends React.Component {
                                 </Card.Body>
                                 <Card.Footer>
                                     <div className="btn-group">
-                                        <Dropdown>
-                                            <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
-                                                + Playlist
+                                        <Dropdown autoClose="outside" onToggle={(isOpen)=> {
+                                            if (isOpen) {console.log('load list')}
+                                        }}
+                                        onSelect={(e, obj)=>{
+                                            console.log(e);
+                                        }}
+                                        >
+                                            <Dropdown.Toggle  variant="secondary">
+                                                +To Playlist
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu variant="dark">
-                                                <Dropdown.Item href="#/action-1" active>
-                                                    Action
+                                                <Dropdown.Item onClick={(e)=>{
+                                                    ReactDOM.render(<Spinner animation="border" />, e.target);
+                                                    setTimeout(()=>ReactDOM.render(<span>"lmao</span>, e.target), 3000);
+                                                }}  eventKey="1 hehe">
+                                                    test playlist
                                                 </Dropdown.Item>
-                                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                                <Dropdown.Item eventKey="2 hehe">Another action</Dropdown.Item>
+                                                <Dropdown.Item eventKey="3 hehe">Something else</Dropdown.Item>
                                                 <Dropdown.Divider />
-                                                <Dropdown.Item href="#/action-4">Separated link</Dropdown.Item>
+                                                <Dropdown.Item eventKey="4 hehe">Separated link</Dropdown.Item>
                                             </Dropdown.Menu>
                                         </Dropdown>
                                         &nbsp;
@@ -53,13 +63,13 @@ export  default class SongListDisplayComponent extends React.Component {
                                                 singer: song.artist
                                             }])
                                         }}><MdPlayArrow /></Button>
+
                                     </div>
                                 </Card.Footer>
                             </Card>
                         </Col>
                     ))
                 }
-
             </Row>
         )
     }

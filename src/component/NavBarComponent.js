@@ -1,8 +1,8 @@
 import '../css/NavBarComponent.css'
-import {Button, Container, Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {Button, Container, Dropdown, Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react'
-import {MdSearch, MdMusicNote, MdDelete} from 'react-icons/md'
+import {MdSearch, MdMusicNote, MdFace} from 'react-icons/md'
 
 import {
     NavLink, useHistory
@@ -23,10 +23,21 @@ function NavBarComponent() {
     if (authCheck) {
         content =
             <>
-                <Nav.Link disabled className={"text-success"}>
-                    Hello {auth().name}
-                </Nav.Link>
-                <Button variant="outline-danger" onClick={()=>{signOut(); history.push('/artists')}}>Logout</Button>
+                <NavDropdown
+                    id="nav-dropdown-dark-example"
+                    title={<MdFace/>}
+                    menuVariant="dark" className={"text-center"}>
+
+                    <NavDropdown.Item>Your Songs</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">You Playlists</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.3">Profile</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={()=>{signOut(); history.push('/artists')}} className={"text-danger"}>
+                        {/*<Button variant="outline-danger" onClick={()=>{signOut(); history.push('/artists')}}>Logout</Button>*/}
+                        Log Out
+                    </NavDropdown.Item>
+                </NavDropdown>
+
             </>
                 } else {
 
@@ -49,8 +60,8 @@ function NavBarComponent() {
                     <Navbar.Brand className={'text-success fs-3'}><MdMusicNote/></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link as={NavLink} to='/library'>Library</Nav.Link>
+                        <Nav className="me-auto text-center" >
+                            <Nav.Link as={NavLink} to='/library'>Home</Nav.Link>
                             <Nav.Link as={NavLink} to='/artists'>Artists</Nav.Link>
                             <Nav.Link as={NavLink} to='/songs'>Songs</Nav.Link>
                             <Form className="d-flex">

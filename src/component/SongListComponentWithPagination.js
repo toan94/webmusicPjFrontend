@@ -1,4 +1,3 @@
-import {Button, Card, CardGroup, Col, ListGroup, Row} from "react-bootstrap";
 import React from "react";
 import {MdPlayArrow, MdAddToQueue} from 'react-icons/md'
 import SongListDisplayComponent from "./SongListDisplayComponent";
@@ -111,7 +110,7 @@ export default class SongListComponentWithPagination extends React.Component{
                                        handlePageSizeChange={this.handlePageSizeChange}
                                        pageSize={this.state.pageSize}
                 />
-                <SongListDisplayComponent songList={this.state.songList} setAudioList={this.props.setAudioList} audioList={this.props.audioList}/>
+                <SongListDisplayComponent  songList={this.state.songList} setAudioList={this.props.setAudioList} audioList={this.props.audioList} />
                 <PaginationComponent count={this.state.count} page={this.state.page} handlePageChange={this.handlePageChange}/>
                 {/*<Button onClick={()=>this.props.setAudio([*/}
                 {/*    { musicSrc: 'https://toantestt.s3.amazonaws.com/TangEmMotBauTroi-LuongGiaHuy-2945059.mp3' },*/}

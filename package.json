@@ -9,6 +9,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
+    "boostrap": "^2.0.0",
     "bootstrap": "^5.1.0",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
@@ -22,6 +23,7 @@
     "react-router-role-authorization": "^1.1.4",
     "react-scripts": "4.0.3",
     "react-validation": "^3.0.7",
+    "sass": "^1.38.1",
     "validator": "^13.6.0",
     "web-vitals": "^1.1.2"
   },
