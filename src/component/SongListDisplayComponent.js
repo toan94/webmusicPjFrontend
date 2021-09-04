@@ -1,9 +1,10 @@
 import {Button, Card, Col, Container, Dropdown, Form, Row, Spinner} from "react-bootstrap";
 import React from "react";
-import {MdAddToQueue, MdPlayArrow} from "react-icons/md";
+import {MdAddToQueue, MdPlayArrow, MdCheck} from "react-icons/md";
 import ReactDOM from 'react-dom';
 import {withAuthHeader} from "react-auth-kit";
 import playlistService from "../services/playlistService";
+import songService from "../services/songService";
 
 
 class SongListDisplayComponent extends React.Component {
@@ -11,9 +12,19 @@ class SongListDisplayComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            myPlaylists : []
+            myPlaylists : [],
+            belongedPlaylists : []
         }
     }
+
+    retrieveBelongedPlaylists(songId){
+        songService.getBelongedPlaylists({songId: songId}, this.props.authHeader).then((res)=>{
+            this.setState({belongedPlaylists: res.data.belongedPlaylists});
+            console.log(res);
+        });
+    }
+
+
 
     componentDidMount() {
         playlistService.getPlaylistListNoPaging({}, this.props.authHeader).then((res)=>{
@@ -41,12 +52,12 @@ class SongListDisplayComponent extends React.Component {
                                     <div className="btn-group">
                                         <Dropdown autoClose="outside" onToggle={(isOpen)=> {
                                             if (isOpen) {
-
-                                                console.log('load list')
+                                                console.log('load list');
+                                                this.retrieveBelongedPlaylists(song.id);
                                             }
                                         }}
-                                        onSelect={(e, obj)=>{
-                                            console.log(e);
+                                        onSelect={(ekey, obj)=>{
+                                            console.log(ekey);
                                         }}
                                         >
                                             <Dropdown.Toggle  variant="secondary">
@@ -56,20 +67,35 @@ class SongListDisplayComponent extends React.Component {
                                             <Dropdown.Menu variant="dark">
                                                 {/*<Dropdown.Item onClick={(e)=>{*/}
                                                 {/*    ReactDOM.render(<Spinner animation="border" />, e.target);*/}
-                                                {/*    setTimeout(()=>ReactDOM.render(<span>"lmao</span>, e.target), 3000);*/}
+                                                {/*    setTimeout(()=>ReactDOM.render(<span>"lmao</span>, e.target), 1000);*/}
                                                 {/*}}  eventKey="1 hehe">*/}
                                                 {/*    test playlist*/}
                                                 {/*</Dropdown.Item>*/}
                                                 {
-                                                        this.state.myPlaylists.map((p)=>(
-                                                        <Dropdown.Item >{p.playlistName}</Dropdown.Item>
-                                                        ))
+                                                this.state.myPlaylists.map((p, index)=>(
+                                                    <Dropdown.Item eventKey={p.id} onClick={(e)=>{
+                                                        // ReactDOM.render(<Spinner animation="border" />, e.target);
+                                                        // setTimeout(()=>ReactDOM.render(<span>{p.playlistName} <MdCheck/></span>, e.target), 1000);
+                                                        if (!this.state.belongedPlaylists.includes(p.id)){
+                                                            songService.addToPlaylist(p.id, song.id, this.props.authHeader).then((res)=>{
+                                                                this.retrieveBelongedPlaylists(song.id);
+                                                            });
+                                                        } else {
+                                                            songService.removeFromPlaylist(p.id, song.id, this.props.authHeader).then((res)=>{
+                                                                this.retrieveBelongedPlaylists(song.id);
+                                                            });
+                                                        }
+                                                    }}
+                                                    >{p.playlistName} {this.state.belongedPlaylists.includes(p.id) ?
+                                                                        <MdCheck/> : null}
+                                                    </Dropdown.Item>
+                                                ))
 
 
                                                 }
 
-                                                <Dropdown.Divider />
-                                                <Dropdown.Item eventKey="4 hehe">Separated link</Dropdown.Item>
+                                                {/*<Dropdown.Divider />*/}
+                                                {/*<Dropdown.Item eventKey="4 hehe">Separated link</Dropdown.Item>*/}
                                             </Dropdown.Menu>
                                         </Dropdown>
                                         &nbsp;

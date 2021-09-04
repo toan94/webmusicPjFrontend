@@ -78,7 +78,7 @@ class PlaylistListDisplayComponent extends React.Component {
                     keyboard={false}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal title</Modal.Title>
+                        <Modal.Title>Creating New Playlist</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form onSubmit={
@@ -107,16 +107,13 @@ class PlaylistListDisplayComponent extends React.Component {
                             </Button>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" >
-                            Close
-                        </Button>
-                        <Button variant="primary">Understood</Button>
-                    </Modal.Footer>
+                    {/*<Modal.Footer>*/}
+
+                    {/*</Modal.Footer>*/}
                 </Modal>
 
 
-            <Row className={"p-2 pt-5 justify-content-start"}>
+            <Row className={"p-2  justify-content-start"}>
 
                 {
                     playlistList.map((playlist, index) => (

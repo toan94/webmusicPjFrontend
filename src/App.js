@@ -75,35 +75,35 @@ function App() {
 
           <>
             <NavBarComponent />
-              <StripeButton price="969" />
-                <Button onClick={()=>{
-                    deleteToken();
-                }}>delete</Button>
-              <div className="App">
-                  <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide animation style={{
-                      position: 'absolute',
-                      top: 20,
-                      right: 20,
-                      minWidth: 200
-                  }}>
-                      <Toast.Header>
+              {/*<StripeButton price="969" />*/}
+              {/*  <Button onClick={()=>{*/}
+              {/*      deleteToken();*/}
+              {/*  }}>delete</Button>*/}
+              {/*<div className="App">*/}
+              {/*    <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide animation style={{*/}
+              {/*        position: 'absolute',*/}
+              {/*        top: 20,*/}
+              {/*        right: 20,*/}
+              {/*        minWidth: 200*/}
+              {/*    }}>*/}
+              {/*        <Toast.Header>*/}
 
-                          <strong className="mr-auto">{notification.title}</strong>
-                          <small>{time}</small>
-                      </Toast.Header>
-                      <Toast.Body>{pushdata}</Toast.Body>
-                  </Toast>
-                  <header className="App-header">
-                      {isTokenFound && <h1> Notification permission enabled 👍🏻 </h1>}
-                      {!isTokenFound && <h1> Need notification permission ❗️ </h1>}
-                      <Button onClick={() => setShow(true)}>Show Toast</Button>
-                  </header>
+              {/*            <strong className="mr-auto">{notification.title}</strong>*/}
+              {/*            <small>{time}</small>*/}
+              {/*        </Toast.Header>*/}
+              {/*        <Toast.Body>{pushdata}</Toast.Body>*/}
+              {/*    </Toast>*/}
+              {/*    <header className="App-header">*/}
+              {/*        {isTokenFound && <h1> Notification permission enabled 👍🏻 </h1>}*/}
+              {/*        {!isTokenFound && <h1> Need notification permission ❗️ </h1>}*/}
+              {/*        <Button onClick={() => setShow(true)}>Show Toast</Button>*/}
+              {/*    </header>*/}
 
-              </div>
+              {/*</div>*/}
 
 
               <Container className={"bg-white w-75 pt-5" }>
-                  <Row className={"p-2 pt-5 justify-content-start"}>
+                  <Row className={"p-2  justify-content-start"}>
                       <Col xs={{order: 1}} sm={8}>
                           <Switch>
                               <Route path="/library">

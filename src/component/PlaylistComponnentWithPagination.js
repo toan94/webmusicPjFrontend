@@ -107,14 +107,14 @@ class ArtistListComponentWithPagination extends React.Component {
         // let artistList = this.state.artistList;
         return (
             <>
-                <SearchConfigComponent searchTitle={this.state.searchTitle}
-                                       onChangeSearchTitle={this.onChangeSearchTitle}
-                                       retrieveList={this.retrievePlaylistList}
-                                       handlePageSizeChange={this.handlePageSizeChange}
-                                       pageSize={this.state.pageSize}
-                />
+                {/*<SearchConfigComponent searchTitle={this.state.searchTitle}*/}
+                {/*                       onChangeSearchTitle={this.onChangeSearchTitle}*/}
+                {/*                       retrieveList={this.retrievePlaylistList}*/}
+                {/*                       handlePageSizeChange={this.handlePageSizeChange}*/}
+                {/*                       pageSize={this.state.pageSize}*/}
+                {/*/>*/}
                 <PlaylistListDisplayComponent playlistList={this.state.playlistList} history={this.props.history} retrieveList={this.retrievePlaylistList}/>
-                <PaginationComponent count={this.state.count} page={this.state.page} handlePageChange={this.handlePageChange}/>
+                {/*<PaginationComponent count={this.state.count} page={this.state.page} handlePageChange={this.handlePageChange}/>*/}
             </>
         )
     }
