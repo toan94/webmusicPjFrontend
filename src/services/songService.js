@@ -9,6 +9,12 @@ class songService {
         return client.get("all", {params:params, headers: {"Authorization": authHeader}});
         // return client.get("all");
     }
+
+    getSongListAccordingToPlaylist(params, authHeader) {
+        return client.get("songsFromPlaylist", {params:params, headers: {"Authorization": authHeader}});
+        // return client.get("all");
+    }
+
     getBelongedPlaylists(params, authHeader) {
         return client.get("belongedPlaylists", {params:params, headers: {"Authorization": authHeader}});
         // return client.get("all");

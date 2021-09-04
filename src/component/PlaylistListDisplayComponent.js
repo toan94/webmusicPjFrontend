@@ -14,6 +14,9 @@ class PlaylistListDisplayComponent extends React.Component {
             show: false
         }
     }
+
+
+
     render(){
         let playlistList = this.props.playlistList;
         const cloudPath = 'https://toantestt.s3.amazonaws.com/';
@@ -125,7 +128,9 @@ class PlaylistListDisplayComponent extends React.Component {
                                 </Card.Body>
                                 <Card.Footer>
                                     <div className="btn-group">
-                                        <Button variant="outline-dark" className={""}>See Detail</Button>
+                                        <Button variant="outline-dark" onClick={()=>{
+                                            this.props.history.push(`/myPlaylists/${playlist.id}`)
+                                        }}>See Detail</Button>
 
 
                                     </div>
