@@ -1,5 +1,5 @@
 import './App.css'
-import {Button, Card, Col, Container, Image, ListGroup, Nav, Navbar, NavDropdown, Row} from "react-bootstrap";
+import {Button, Card, Col, Container, Image, ListGroup, Nav, Navbar, NavDropdown, Row, Toast} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useEffect, useRef, useState} from 'react'
 import ReactDOM from 'react-dom'
@@ -22,6 +22,14 @@ import FooterComponent from "./component/FooterComponent";
 import PlaylistListDisplayComponent from "./component/PlaylistListDisplayComponent";
 import PlaylistComponnentWithPagination from "./component/PlaylistComponnentWithPagination";
 // import './scss/custom.scss'
+import FbApp, {deleteToken} from './firebase'
+// import * as firebase from 'firebase/app';
+// import '@firebase/messaging';
+
+import { getMessaging, onMessage } from "firebase/messaging";
+// import { getToken, onMessageListener } from './firebase';
+import { getToken, onMessageListener } from './firebase';
+import StripeButton from "./component/StripeCheckoutComponent";
 
 
 function App() {
@@ -37,13 +45,62 @@ function App() {
     //         setAudioList([{ musicSrc: 'https://toantestt.s3.amazonaws.com/gg.mp3' }, { musicSrc: 'https://toantestt.s3.amazonaws.com/gg.mp3' }])
     //     }, 3000)
     // }, [setAudioLists])
+
+    const [show, setShow] = useState(false);
+    const [notification, setNotification] = useState({title: '', body: ''});
+    const [isTokenFound, setTokenFound] = useState(false);
+    const [pushdata, setPushdata] = useState('');
+    const [time, setTime] = useState('');
+
+
+    getToken(setTokenFound);
+    onMessageListener().then(payload => {
+        setShow(true);
+        setNotification({title: payload.notification.title, body: payload.notification.body});
+        setPushdata(payload.data.key1);
+        // console.log(payload +"GG");
+         console.log(payload.data);
+
+        var today = new Date();
+        var date = (today.getMonth()+1)+'-'+today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date+' '+time;
+         setTime(dateTime);
+
+    }).catch(err => console.log('failed: ', err));
+
+
+
         return (
 
           <>
             <NavBarComponent />
+              <StripeButton price="969" />
+                <Button onClick={()=>{
+                    deleteToken();
+                }}>delete</Button>
+              <div className="App">
+                  <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide animation style={{
+                      position: 'absolute',
+                      top: 20,
+                      right: 20,
+                      minWidth: 200
+                  }}>
+                      <Toast.Header>
 
-              {/*<SignInComponent />*/}
-              {/*  <SignOutComponent/>*/}
+                          <strong className="mr-auto">{notification.title}</strong>
+                          <small>{time}</small>
+                      </Toast.Header>
+                      <Toast.Body>{pushdata}</Toast.Body>
+                  </Toast>
+                  <header className="App-header">
+                      {isTokenFound && <h1> Notification permission enabled 👍🏻 </h1>}
+                      {!isTokenFound && <h1> Need notification permission ❗️ </h1>}
+                      <Button onClick={() => setShow(true)}>Show Toast</Button>
+                  </header>
+
+              </div>
+
 
               <Container className={"bg-white w-75 pt-5" }>
                   <Row className={"p-2 pt-5 justify-content-start"}>
@@ -112,7 +169,7 @@ function App() {
                                 onAudioListsChange={
                                     (currentPlayId, audioLists, audioInfo)=>setAudioList(audioLists)}
             />
-          </>
+            </>
         );
 
 }
