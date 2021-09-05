@@ -133,7 +133,7 @@ class SongListDisplayComponent extends React.Component {
                                     </div>
                                 </Card.Footer> : <Button className="w-50" variant="outline-danger" onClick={()=>{
                                     adminService.deletesong(song.id, this.props.authHeader).then((res)=>{
-                                        console.log(res);
+                                        this.props.retrieveList();
                                     }).catch(e=>console.log(e));
                                 }}>Delete</Button>}
                             </Card>

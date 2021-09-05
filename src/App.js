@@ -33,7 +33,7 @@ import StripeButton from "./component/StripeCheckoutComponent";
 import SongListComponentWithPaginationPerPlaylist from "./component/SongListComponentPerPlaylist";
 import SongListComponentPerUser from "./component/SongListComponentPerUser";
 import SongUploadComponent from "./component/SongUploadComponent";
-import {useAuthUser, useIsAuthenticated} from "react-auth-kit";
+import {useAuthHeader, useAuthUser, useIsAuthenticated} from "react-auth-kit";
 import AdminComponent from "./component/AdminComponent";
 import AdminNavBarComponent from "./component/AdminNavBarComponent";
 import AdminArtistListComponent from "./component/AdminArtistListComponent";
@@ -52,6 +52,7 @@ function App() {
     const aPlayer = useRef(null);
     const isAuthenticated = useIsAuthenticated();
     const auth = useAuthUser();
+    const authHeader = useAuthHeader();
     let roles = [];
     let isAdmin = false;
 
@@ -167,7 +168,7 @@ function App() {
                                   <AdminSongListComponent history={history} isAdmin={isAdmin}/>
                               </Route>
                               <Route path="/admin/newAdmin">
-                                  <AddNewAdminComponent history={history} isAdmin={isAdmin}/>
+                                  <AddNewAdminComponent history={history} isAdmin={isAdmin} authHeader={authHeader()}/>
                               </Route>
                               <Route path="/Home">
                                   <HomeComponent history={history} isAdmin={isAdmin}/>

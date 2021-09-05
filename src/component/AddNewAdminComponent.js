@@ -52,7 +52,7 @@ class AddNewAdminComponent extends Component {
                 password: e.target.password.value,
                 email: e.target.email.value
             }
-            axios.post('http://localhost:8080/api/auth/adminSignup', signInRequest)
+            axios.post('http://localhost:8080/api/auth/adminSignup', signInRequest, {headers: {"Authorization": this.props.authHeader}})
                 .then((res)=>{
                     if(res.status === 200) {
                         this.setState({signUpRequestStatus: "Creation success! You will be redirected " +

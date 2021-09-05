@@ -118,7 +118,9 @@ class AdminSongListComponent extends React.Component{
                                        pageSize={this.state.pageSize}
                 />
                 <SongListDisplayComponent  songList={this.state.songList} setAudioList={this.props.setAudioList} audioList={this.props.audioList}
-                                           isAdmin={this.props.isAdmin}/>
+                                           isAdmin={this.props.isAdmin}
+                                           retrieveList={this.retrieveSongList}
+                />
                 <PaginationComponent count={this.state.count} page={this.state.page} handlePageChange={this.handlePageChange}/>
                 {/*<Button onClick={()=>this.props.setAudio([*/}
                 {/*    { musicSrc: 'https://toantestt.s3.amazonaws.com/TangEmMotBauTroi-LuongGiaHuy-2945059.mp3' },*/}

@@ -114,7 +114,12 @@ class ArtistListComponentWithPagination extends React.Component {
                 {/*                       pageSize={this.state.pageSize}*/}
                 {/*/>*/}
                 <h1 className="text-success text-center">Your Playlists</h1> <hr/>
-                <PlaylistListDisplayComponent playlistList={this.state.playlistList} history={this.props.history} retrieveList={this.retrievePlaylistList}/>
+                <PlaylistListDisplayComponent playlistList={this.state.playlistList}
+                                              history={this.props.history}
+                                              retrieveList={this.retrievePlaylistList}
+                                              audioList={this.props.audioList}
+                                              setAudioList={this.props.setAudioList}
+                />
                 {/*<PaginationComponent count={this.state.count} page={this.state.page} handlePageChange={this.handlePageChange}/>*/}
             </>
         )

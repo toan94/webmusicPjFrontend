@@ -1,9 +1,10 @@
 import {Button, Card, Col, Container, Dropdown, Form, Modal, Row, Spinner} from "react-bootstrap";
 import React from "react";
-import {MdAddToQueue, MdPlayArrow, MdAdd} from "react-icons/md";
+import {MdAddToQueue, MdPlayArrow, MdAdd, MdPlaylistPlay} from "react-icons/md";
 import ReactDOM from 'react-dom';
 import {withAuthHeader} from "react-auth-kit";
 import playlistService from "../services/playlistService";
+import songService from "../services/songService";
 
 
 class PlaylistListDisplayComponent extends React.Component {
@@ -131,7 +132,26 @@ class PlaylistListDisplayComponent extends React.Component {
                                         <Button variant="outline-dark" onClick={()=>{
                                             this.props.history.push(`/myPlaylists/${playlist.id}`)
                                         }}>See Detail</Button>
+                                        <Button className="ms-2" variant="outline-success" onClick={()=>{
+                                            songService.getSongListAccordingToPlaylist({playlistId: playlist.id}, this.props.authHeader).then((res)=>{
+                                                // console.log(res);
+                                                let songList = res.data.songList;
+                                                let songListArray = songList.map((s)=>{
+                                                    return {
+                                                        musicSrc: cloudPath + s.name + '.mp3',
+                                                        name: s.name,
+                                                        singer: s.artist
+                                                    }
+                                                });
+                                                setAudioList(songListArray);
+                                                // setAudioList([{
+                                                //     musicSrc: cloudPath + song.name + '.mp3',
+                                                //     name: song.name,
+                                                //     singer: song.artist
+                                                // }]);
 
+                                            })
+                                        }}><MdPlaylistPlay /></Button>
 
                                     </div>
                                 </Card.Footer>
