@@ -130,7 +130,9 @@ function App() {
                   <Row className={"p-2  justify-content-start"}>
                       <Col xs={{order: 1}} sm={8}>
                           <Switch>
-
+                              <Route path="/" exact>
+                                  <HomeComponent history={history} isAuth={isAuthenticated()} isAdmin={isAdmin}/>
+                              </Route>
                               <Route path="/artists">
                                   <ArtistListComponentWithPagination history={history} isAuth={isAuthenticated()} isAdmin={isAdmin}/>
                               </Route>

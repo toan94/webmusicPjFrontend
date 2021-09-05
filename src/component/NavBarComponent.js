@@ -1,13 +1,18 @@
 import '../css/NavBarComponent.css'
-import {Button, Container, Dropdown, Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {Button, Container, Dropdown, Modal, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react'
+import React, {useState} from 'react'
 import {MdSearch, MdMusicNote, MdFace, MdFileUpload} from 'react-icons/md'
 
 import {
     NavLink, useHistory
 } from "react-router-dom";
-import {useAuthUser, useIsAuthenticated, useSignIn, useSignOut} from "react-auth-kit";
+import {useAuthHeader, useAuthUser, useIsAuthenticated, useSignIn, useSignOut} from "react-auth-kit";
+import playlistService from "../services/playlistService";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
+import Form from "react-validation/build/form";
+import axios from "axios";
 
 
 function NavBarComponent() {
@@ -17,6 +22,9 @@ function NavBarComponent() {
     const auth = useAuthUser()
     const signOut = useSignOut()
     let history = useHistory();
+    const [show, setShow] = useState(false);
+    const authHeader = useAuthHeader();
+
 
     let content;
     console.log("navbar authcheck"+authCheck);
@@ -31,7 +39,7 @@ function NavBarComponent() {
 
                     <NavDropdown.Item as={NavLink} to='/mySongs'>Your Songs</NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to='/myPlaylists'>Your Playlists</NavDropdown.Item>
-                    {/*<NavDropdown.Item href="#action/3.3">Profile</NavDropdown.Item>*/}
+                    <NavDropdown.Item onClick={()=>setShow(true)}>Change Avatar</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item onClick={()=>{signOut(); history.push('/Home')}} className={"text-danger"}>
                         {/*<Button variant="outline-danger" onClick={()=>{signOut(); history.push('/artists')}}>Logout</Button>*/}
@@ -55,7 +63,7 @@ function NavBarComponent() {
 
     }
     return (
-
+<>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
                     <Navbar.Brand className={'text-success fs-3'}><MdMusicNote/></Navbar.Brand>
@@ -95,6 +103,81 @@ function NavBarComponent() {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
+
+
+
+    <Modal
+        show={show}
+        onHide={()=>setShow(false)}
+        backdrop="static"
+        keyboard={false}
+    >
+        <Modal.Header closeButton>
+            <Modal.Title>Upload New Avatar</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            {/*<Form onSubmit={*/}
+            {/*    (e)=>{*/}
+            {/*        e.preventDefault();*/}
+            {/*        console.log(e.target.playlistName.value);*/}
+            {/*        playlistService.createNewPlaylist(e.target.playlistName.value,this.props.authHeader).then((res)=>{*/}
+            {/*            this.props.retrieveList();*/}
+            {/*            console.log(res);*/}
+            {/*        });*/}
+            {/*        setShow(false);*/}
+            {/*        // this.props.retrieveList();*/}
+            {/*        // this.props.history.push('/myPlaylist');*/}
+            {/*    }*/}
+            {/*}>*/}
+            {/*    <Form.Group className="mb-3" >*/}
+            {/*        <Form.Label>Playlist Name</Form.Label>*/}
+            {/*        <Form.Control type="text" placeholder="New playlist name" name="playlistName"/>*/}
+            {/*        <Form.Text className="text-muted">*/}
+            {/*            Enter the name of you new playlist*/}
+            {/*        </Form.Text>*/}
+            {/*    </Form.Group>*/}
+
+            {/*    <Button variant="outline-success" type="submit">*/}
+            {/*        Create*/}
+            {/*    </Button>*/}
+            {/*</Form>*/}
+
+            <Form className="w-75" onSubmit={(e)=>{
+                e.preventDefault();
+                let formData = new FormData();
+                formData.append("file", e.target.songFile.files[0]);
+                // formData.append("songName", e.target.songName.value);
+                axios.post('http://localhost:8080/api/test/avatar', formData,
+                    {headers: {'Content-Type': 'multipart/form-data', "Authorization": authHeader()}})
+                    .then((res)=>{
+                        if(res.status === 200) {
+                            // this.setState({signUpRequestStatus: "Registration success! You will be redirected " +
+                            //         "in 5 seconds", done:true},()=> setTimeout(()=>this.props.history.push('/signIn'), 5000));
+                            // console.log(res);
+                            setShow(false);
+                            history.push('/artists');
+                        }
+                    }, (err)=>{
+                        // this.setState({failureNotification: "Registration failed please choose another Username or Email"});
+                        console.log(err);
+
+                    })
+            }}>
+                <Input
+                    name="songFile"
+                    // onChange={this.onChangeHandler}
+                    type="file"
+                    className="form-control ms-3 mt-2"
+                />
+
+                <button className="btn btn-outline-success btn-block login ms-3 mt-3" type="submit">Upload</button>
+            </Form>
+        </Modal.Body>
+        {/*<Modal.Footer>*/}
+
+        {/*</Modal.Footer>*/}
+    </Modal>
+</>
 
 
 

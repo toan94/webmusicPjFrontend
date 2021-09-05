@@ -68,7 +68,7 @@ class SongListComponentPerUser extends React.Component{
 
         return (
             <>
-                <h1 className="text-success text-center">Your Songs</h1> <hr/>
+                <h1 className="text-success text-center">Songs</h1> <hr/>
                 <SongListDisplayComponent  songList={this.state.songList}
                                            setAudioList={this.props.setAudioList}
                                            audioList={this.props.audioList}
