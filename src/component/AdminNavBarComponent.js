@@ -66,7 +66,7 @@ function AdminNavBarComponent() {
                         <Nav.Link as={NavLink} to='/admin/artists'>Users</Nav.Link>
                         <Nav.Link as={NavLink} to='/admin/songs'>Songs</Nav.Link>
 
-                        <Nav.Link >Add New Admin</Nav.Link>
+                        <Nav.Link as={NavLink} to='/admin/newAdmin'>Add New Admin</Nav.Link>
 
                     </Nav>
                     <Nav>

@@ -37,6 +37,8 @@ import {useAuthUser, useIsAuthenticated} from "react-auth-kit";
 import AdminComponent from "./component/AdminComponent";
 import AdminNavBarComponent from "./component/AdminNavBarComponent";
 import AdminArtistListComponent from "./component/AdminArtistListComponent";
+import AdminSongListComponent from "./component/AdminSongListComponent";
+import AddNewAdminComponent from "./component/AddNewAdminComponent";
 
 
 function App() {
@@ -160,8 +162,11 @@ function App() {
                               <Route path="/admin/artists">
                                   <AdminArtistListComponent history={history} isAdmin={isAdmin}/>
                               </Route>
-                              <Route path="/admin/artists">
+                              <Route path="/admin/songs">
                                   <AdminSongListComponent history={history} isAdmin={isAdmin}/>
+                              </Route>
+                              <Route path="/admin/newAdmin">
+                                  <AddNewAdminComponent history={history} isAdmin={isAdmin}/>
                               </Route>
                               <Route path="/admin">
                                   <AdminComponent />

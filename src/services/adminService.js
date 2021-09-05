@@ -11,6 +11,11 @@ class adminService {
         // return axios.get(API_URL + 'artists');
         return client.post("deleteUser", {name:name}, {headers: {"Authorization": authHeader}});
     }
+
+    deletesong(songId, authHeader) {
+        // return axios.get(API_URL + 'artists');
+        return client.post("deleteSong", {songId:songId}, {headers: {"Authorization": authHeader}});
+    }
     // getUserBoard() {
     //     return axios.get(API_URL + 'user', { headers: authHeader() });
     // }

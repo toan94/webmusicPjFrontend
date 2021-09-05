@@ -6,6 +6,7 @@ import {withAuthHeader} from "react-auth-kit";
 import playlistService from "../services/playlistService";
 import songService from "../services/songService";
 import SongActionComponent from "./SongActionComponent";
+import adminService from "../services/adminService";
 
 
 class SongListDisplayComponent extends React.Component {
@@ -62,19 +63,19 @@ class SongListDisplayComponent extends React.Component {
                                 <Card.Body>
                                     <Card.Title>{song.name}</Card.Title>
                                 </Card.Body>
-                                <Card.Footer>
+                                {!this.props.isAdmin ? <Card.Footer>
                                     <div className="btn-group">
-                                        <Dropdown autoClose="outside" onToggle={(isOpen)=> {
+                                        <Dropdown autoClose="outside" onToggle={(isOpen) => {
                                             if (isOpen) {
                                                 console.log('load list');
                                                 this.retrieveBelongedPlaylists(song.id);
                                             }
                                         }}
-                                        onSelect={(ekey, obj)=>{
-                                            console.log(ekey);
-                                        }}
+                                                  onSelect={(ekey, obj) => {
+                                                      console.log(ekey);
+                                                  }}
                                         >
-                                            <Dropdown.Toggle  variant="outline-dark">
+                                            <Dropdown.Toggle variant="outline-dark">
                                                 +To Playlist
                                             </Dropdown.Toggle>
 
@@ -86,24 +87,24 @@ class SongListDisplayComponent extends React.Component {
                                                 {/*    test playlist*/}
                                                 {/*</Dropdown.Item>*/}
                                                 {
-                                                this.state.myPlaylists.map((p, index)=>(
-                                                    <Dropdown.Item eventKey={p.id} onClick={(e)=>{
-                                                        // ReactDOM.render(<Spinner animation="border" />, e.target);
-                                                        // setTimeout(()=>ReactDOM.render(<span>{p.playlistName} <MdCheck/></span>, e.target), 1000);
-                                                        if (!this.state.belongedPlaylists.includes(p.id)){
-                                                            songService.addToPlaylist(p.id, song.id, this.props.authHeader).then((res)=>{
-                                                                this.retrieveBelongedPlaylists(song.id);
-                                                            });
-                                                        } else {
-                                                            songService.removeFromPlaylist(p.id, song.id, this.props.authHeader).then((res)=>{
-                                                                this.retrieveBelongedPlaylists(song.id);
-                                                            });
-                                                        }
-                                                    }}
-                                                    >{p.playlistName} {this.state.belongedPlaylists.includes(p.id) ?
-                                                                        <MdCheck/> : null}
-                                                    </Dropdown.Item>
-                                                ))
+                                                    this.state.myPlaylists.map((p, index) => (
+                                                        <Dropdown.Item eventKey={p.id} onClick={(e) => {
+                                                            // ReactDOM.render(<Spinner animation="border" />, e.target);
+                                                            // setTimeout(()=>ReactDOM.render(<span>{p.playlistName} <MdCheck/></span>, e.target), 1000);
+                                                            if (!this.state.belongedPlaylists.includes(p.id)) {
+                                                                songService.addToPlaylist(p.id, song.id, this.props.authHeader).then((res) => {
+                                                                    this.retrieveBelongedPlaylists(song.id);
+                                                                });
+                                                            } else {
+                                                                songService.removeFromPlaylist(p.id, song.id, this.props.authHeader).then((res) => {
+                                                                    this.retrieveBelongedPlaylists(song.id);
+                                                                });
+                                                            }
+                                                        }}
+                                                        >{p.playlistName} {this.state.belongedPlaylists.includes(p.id) ?
+                                                            <MdCheck/> : null}
+                                                        </Dropdown.Item>
+                                                    ))
 
 
                                                 }
@@ -113,24 +114,28 @@ class SongListDisplayComponent extends React.Component {
                                             </Dropdown.Menu>
                                         </Dropdown>
                                         &nbsp;
-                                        <Button variant="outline-dark" onClick={()=>{
+                                        <Button variant="outline-dark" onClick={() => {
                                             setAudioList(audioList.concat([{
                                                 musicSrc: cloudPath + song.name + '.mp3',
                                                 name: song.name,
                                                 singer: song.artist
                                             }]));
-                                        }}><MdAddToQueue /></Button>
+                                        }}><MdAddToQueue/></Button>
                                         &nbsp;
-                                        <Button variant="outline-success" onClick={()=>{
+                                        <Button variant="outline-success" onClick={() => {
                                             setAudioList([{
                                                 musicSrc: cloudPath + song.name + '.mp3',
                                                 name: song.name,
                                                 singer: song.artist
                                             }])
-                                        }}><MdPlayArrow /></Button>
+                                        }}><MdPlayArrow/></Button>
 
                                     </div>
-                                </Card.Footer>
+                                </Card.Footer> : <Button className="w-50" variant="outline-danger" onClick={()=>{
+                                    adminService.deletesong(song.id, this.props.authHeader).then((res)=>{
+                                        console.log(res);
+                                    }).catch(e=>console.log(e));
+                                }}>Delete</Button>}
                             </Card>
                         </Col>
                     ))
