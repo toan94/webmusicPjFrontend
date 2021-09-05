@@ -74,7 +74,7 @@ class SongListDisplayComponent extends React.Component {
                                             console.log(ekey);
                                         }}
                                         >
-                                            <Dropdown.Toggle  variant="secondary">
+                                            <Dropdown.Toggle  variant="outline-dark">
                                                 +To Playlist
                                             </Dropdown.Toggle>
 

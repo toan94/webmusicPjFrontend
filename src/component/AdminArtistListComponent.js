@@ -8,7 +8,7 @@ import SearchConfigComponent from "./SearchConfigComponent";
 import {withAuthHeader} from "react-auth-kit";
 
 
-class ArtistListComponentWithPagination extends React.Component {
+class AdminArtistListComponent extends React.Component {
 
     constructor(props) {
         super(props);
@@ -105,21 +105,21 @@ class ArtistListComponentWithPagination extends React.Component {
 
     render() {
         // let artistList = this.state.artistList;
-        if(!this.props.isAuth) {
-            this.props.history.push('/signIn');
-        }
+        // if(!this.props.isAuth) {
+        //     this.props.history.push('/signIn');
+        // }
         return (
             <>
                 <SearchConfigComponent searchTitle={this.state.searchTitle}
                                        onChangeSearchTitle={this.onChangeSearchTitle}
-                                        retrieveList={this.retrieveArtistList}
+                                       retrieveList={this.retrieveArtistList}
                                        handlePageSizeChange={this.handlePageSizeChange}
                                        pageSize={this.state.pageSize}
                 />
-                <ArtistListDisplayComponent artistList={this.state.artistList} isAdmin={this.props.isAdmin} />
+                <ArtistListDisplayComponent artistList={this.state.artistList} isAdmin={this.props.isAdmin} retrieveArtistList={this.retrieveArtistList}/>
                 <PaginationComponent count={this.state.count} page={this.state.page} handlePageChange={this.handlePageChange}/>
             </>
         )
     }
 };
-export default withAuthHeader(ArtistListComponentWithPagination);
+export default withAuthHeader(AdminArtistListComponent);

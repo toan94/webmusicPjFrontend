@@ -2,6 +2,8 @@ import {Button, Card, Col, Row} from "react-bootstrap";
 import React from "react";
 import artistService from "../services/artistService";
 import {withRouter} from "react-router-dom";
+import {withAuthHeader} from "react-auth-kit";
+import adminService from "../services/adminService";
 
 class ArtistListDisplayComponent extends React.Component {
 
@@ -31,9 +33,21 @@ class ArtistListDisplayComponent extends React.Component {
                                     {/*<Card.Text>*/}
                                     {/*    Toan*/}
                                     {/*</Card.Text>*/}
-                                    <Button variant="outline-dark" onClick={()=>{
-                                        this.props.history.push(`/artist/${artist.name}`)
-                                    }}>See Artist</Button>
+
+
+                                    {
+                                        this.props.isAdmin
+                                            ? <Button variant="outline-danger" onClick={()=>{
+                                                adminService.deleteArtist(artist.name, this.props.authHeader).then((res)=>{
+                                                    console.log(res);
+                                                    this.props.retrieveArtistList();
+                                                }).catch(err=>console.log(err));
+                                            }}>Delete</Button>
+                                            : <Button variant="outline-dark" onClick={() => {
+                                                this.props.history.push(`/artist/${artist.name}`)
+                                            }}>See Artist</Button>
+                                    }
+
                                 </Card.Body>
                             </Card>
                         </Col>)
@@ -45,4 +59,4 @@ class ArtistListDisplayComponent extends React.Component {
         )
     }
 }
-export default withRouter(ArtistListDisplayComponent);
+export default withAuthHeader(withRouter(ArtistListDisplayComponent));

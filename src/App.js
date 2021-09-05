@@ -33,8 +33,10 @@ import StripeButton from "./component/StripeCheckoutComponent";
 import SongListComponentWithPaginationPerPlaylist from "./component/SongListComponentPerPlaylist";
 import SongListComponentPerUser from "./component/SongListComponentPerUser";
 import SongUploadComponent from "./component/SongUploadComponent";
-import {useIsAuthenticated} from "react-auth-kit";
+import {useAuthUser, useIsAuthenticated} from "react-auth-kit";
 import AdminComponent from "./component/AdminComponent";
+import AdminNavBarComponent from "./component/AdminNavBarComponent";
+import AdminArtistListComponent from "./component/AdminArtistListComponent";
 
 
 function App() {
@@ -46,6 +48,16 @@ function App() {
     ])
     const aPlayer = useRef(null);
     const isAuthenticated = useIsAuthenticated();
+    const auth = useAuthUser();
+    let roles = [];
+    let isAdmin = false;
+
+    if (isAuthenticated()) {
+         roles = auth().roles;
+         isAdmin = roles.includes("ROLE_ADMIN");
+        console.log(auth());
+    }
+
     // useEffect(() => {
     //     setTimeout(() => {
     //         setAudioList([{ musicSrc: 'https://toantestt.s3.amazonaws.com/gg.mp3' }, { musicSrc: 'https://toantestt.s3.amazonaws.com/gg.mp3' }])
@@ -65,7 +77,7 @@ function App() {
         setNotification({title: payload.notification.title, body: payload.notification.body});
         setPushdata(payload.data.key1);
         // console.log(payload +"GG");
-         console.log(payload.data);
+        //  console.log(payload.data);
 
         var today = new Date();
         var date = (today.getMonth()+1)+'-'+today.getDate();
@@ -80,7 +92,10 @@ function App() {
         return (
 
           <>
-            <NavBarComponent />
+              {
+                  roles.includes("ROLE_ADMIN") ? <AdminNavBarComponent /> : <NavBarComponent />
+              }
+
               {/*<StripeButton price="969" />*/}
               {/*  <Button onClick={()=>{*/}
               {/*      deleteToken();*/}
@@ -116,7 +131,7 @@ function App() {
                                   <LibraryComponent />
                               </Route>
                               <Route path="/artists">
-                                  <ArtistListComponentWithPagination history={history} isAuth={isAuthenticated()}/>
+                                  <ArtistListComponentWithPagination history={history} isAuth={isAuthenticated()} isAdmin={isAdmin}/>
                               </Route>
                               <Route path="/signIn">
                                   <SignInComponent />
@@ -142,55 +157,66 @@ function App() {
                               <Route path="/artist/:username">
                                   <SongListComponentPerUser setAudioList={setAudioList} audioList={audioList} self={false}/>
                               </Route>
+                              <Route path="/admin/artists">
+                                  <AdminArtistListComponent history={history} isAdmin={isAdmin}/>
+                              </Route>
+                              <Route path="/admin/artists">
+                                  <AdminSongListComponent history={history} isAdmin={isAdmin}/>
+                              </Route>
                               <Route path="/admin">
                                   <AdminComponent />
                               </Route>
+
 
                               {/*<Route path="/signOut">*/}
                               {/*    <SignOutComponent />*/}
                               {/*</Route>*/}
                           </Switch>
                       </Col>
-                      <Col xs={{order: 2}} sm={4} className={"MyListGroup"}>
-                          <ul className="list-group">
-                              <li className="list-group-item active" aria-current="true">An active item</li>
-                              <li className="list-group-item">A second item</li>
-                              <li className="list-group-item">A third item</li>
-                              <li className="list-group-item">A fourth item</li>
-                              <li className="list-group-item">And a fifth one</li>
-                          </ul>
-                          <br/>
-                          <ListGroup as="ul">
-                              <Image src="https://ichef.bbci.co.uk/news/976/cpsprodpb/568C/production/_118965122_gettyimages-572304327.jpg" fluid />
-                          </ListGroup>
-                          <br/>
-                          <ListGroup as="ul">
-                              <ListGroup.Item as="li" active>
-                                  Cras justo odio
-                              </ListGroup.Item>
-                              <ListGroup.Item as="li">Dapibus ac facilisis in</ListGroup.Item>
-                              <ListGroup.Item as="li" disabled>
-                                  Morbi leo risus
-                              </ListGroup.Item>
-                              <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>
-                              <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>
-                              <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>
-                              <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>
-                              <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>
-                              <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>
-                          </ListGroup>
+                      {/*<Col xs={{order: 2}} sm={4} className={"MyListGroup"}>*/}
+                      {/*    <ul className="list-group">*/}
+                      {/*        <li className="list-group-item active" aria-current="true">An active item</li>*/}
+                      {/*        <li className="list-group-item">A second item</li>*/}
+                      {/*        <li className="list-group-item">A third item</li>*/}
+                      {/*        <li className="list-group-item">A fourth item</li>*/}
+                      {/*        <li className="list-group-item">And a fifth one</li>*/}
+                      {/*    </ul>*/}
+                      {/*    <br/>*/}
+                      {/*    <ListGroup as="ul">*/}
+                      {/*        <Image src="https://ichef.bbci.co.uk/news/976/cpsprodpb/568C/production/_118965122_gettyimages-572304327.jpg" fluid />*/}
+                      {/*    </ListGroup>*/}
+                      {/*    <br/>*/}
+                      {/*    <ListGroup as="ul">*/}
+                      {/*        <ListGroup.Item as="li" active>*/}
+                      {/*            Cras justo odio*/}
+                      {/*        </ListGroup.Item>*/}
+                      {/*        <ListGroup.Item as="li">Dapibus ac facilisis in</ListGroup.Item>*/}
+                      {/*        <ListGroup.Item as="li" disabled>*/}
+                      {/*            Morbi leo risus*/}
+                      {/*        </ListGroup.Item>*/}
+                      {/*        <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>*/}
+                      {/*        <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>*/}
+                      {/*        <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>*/}
+                      {/*        <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>*/}
+                      {/*        <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>*/}
+                      {/*        <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>*/}
+                      {/*    </ListGroup>*/}
 
-                      </Col>
+                      {/*</Col>*/}
                   </Row>
 
               </Container>
                 <FooterComponent/>
-            <ReactJkMusicPlayer className={"haha"} showMediaSession audioLists={audioList}
-                                quietUpdate showMiniProcessBar autoHiddenCover
-                                clearPriorAudioLists ref={aPlayer}
-                                onAudioListsChange={
-                                    (currentPlayId, audioLists, audioInfo)=>setAudioList(audioLists)}
-            />
+
+              {
+                  roles.includes("ROLE_ADMIN") ? null : <ReactJkMusicPlayer className={"haha"} showMediaSession audioLists={audioList}
+                                                                            quietUpdate showMiniProcessBar autoHiddenCover
+                                                                            clearPriorAudioLists ref={aPlayer}
+                                                                            onAudioListsChange={
+                                                                                (currentPlayId, audioLists, audioInfo)=>setAudioList(audioLists)}
+                  />
+              }
+
             </>
         );
 

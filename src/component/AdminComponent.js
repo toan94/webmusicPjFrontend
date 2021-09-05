@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Admin } from 'react-admin';
+import { Admin, Resource, ListGuesser } from 'react-admin';
 import jsonServerProvider from 'ra-data-json-server';
 
 
 export default function AdminComponent(){
 
-    const dataProvider = jsonServerProvider('http://localhost:3000/admin');
+    const dataProvider = jsonServerProvider('http://localhost:8080/api/admin');
     return (
-        <Admin dataProvider={dataProvider} />
+        <div>dfasdfasfasdafsd</div>
     )
 }

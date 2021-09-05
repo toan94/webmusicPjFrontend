@@ -1,14 +1,11 @@
 import axios from 'axios';
 
 // const API_URL = 'http://localhost:8080/api/test/';
-const client = axios.create({baseURL: "http://localhost:8080/api/test",
+const client = axios.create({baseURL: "http://localhost:8080/api/admin",
     headers: {"Content-type": "application/json" }});
 
-class artistService {
-    getArtistList(params, authHeader) {
-        // return axios.get(API_URL + 'artists');
-        return client.get("artists", {params:params, headers: {"Authorization": authHeader}});
-    }
+class adminService {
+
 
     deleteArtist(name, authHeader) {
         // return axios.get(API_URL + 'artists');
@@ -27,4 +24,4 @@ class artistService {
     // }
 }
 
-export default new artistService();
+export default new adminService();
