@@ -110,6 +110,7 @@ class ArtistListComponentWithPagination extends React.Component {
         }
         return (
             <>
+                <h1 className="text-success text-center">Artists</h1>
                 <SearchConfigComponent searchTitle={this.state.searchTitle}
                                        onChangeSearchTitle={this.onChangeSearchTitle}
                                         retrieveList={this.retrieveArtistList}

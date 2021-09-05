@@ -8,6 +8,7 @@ import isEmpty from "validator/es/lib/isEmpty";
 import isEmail from "validator/es/lib/isEmail";
 import CheckButton from 'react-validation/build/button';
 import axios from "axios";
+import ForbiddenComponent from "./ForbiddenComponent";
 
 const required = (value) => {
     if (isEmpty(value)) {
@@ -65,6 +66,16 @@ class AddNewAdminComponent extends Component {
     }
 
     render() {
+
+        // console.log("addnewadmin isauth: "+this.props.isAuth);
+
+        // if(!this.props.isAuth) {
+        //     this.props.history.push('/signIn');
+        // }
+        if(!this.props.isAdmin) {
+            return <ForbiddenComponent />;
+        }
+
         return (<div className="container">
             <div className="login-container">
                 <div id="output"></div>

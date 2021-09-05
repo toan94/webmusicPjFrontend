@@ -33,7 +33,7 @@ function NavBarComponent() {
                     <NavDropdown.Item as={NavLink} to='/myPlaylists'>Your Playlists</NavDropdown.Item>
                     {/*<NavDropdown.Item href="#action/3.3">Profile</NavDropdown.Item>*/}
                     <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={()=>{signOut(); history.push('/artists')}} className={"text-danger"}>
+                    <NavDropdown.Item onClick={()=>{signOut(); history.push('/Home')}} className={"text-danger"}>
                         {/*<Button variant="outline-danger" onClick={()=>{signOut(); history.push('/artists')}}>Logout</Button>*/}
                         Log Out
                     </NavDropdown.Item>
@@ -62,20 +62,22 @@ function NavBarComponent() {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto text-center" >
-                            <Nav.Link as={NavLink} to='/library'>Home</Nav.Link>
+                            <Nav.Link as={NavLink} to='/Home'>Home</Nav.Link>
                             <Nav.Link as={NavLink} to='/artists'>Artists</Nav.Link>
                             <Nav.Link as={NavLink} to='/songs'>Songs</Nav.Link>
-                            <Form className="d-flex">
-                                <FormControl
-                                    as="input"
-                                    size="sm"
-                                    type="search"
-                                    placeholder="Search Song Name"
-                                    className="mr-2 "
-                                    aria-label="Search"
-                                />
-                                <Button className={"searchButton"} variant="outline-success"><MdSearch /></Button>
-                            </Form>
+                            {/*<Form className="d-flex">*/}
+                            {/*    <FormControl*/}
+                            {/*        as="input"*/}
+                            {/*        size="sm"*/}
+                            {/*        type="search"*/}
+                            {/*        placeholder="Search Song Name"*/}
+                            {/*        className="mr-2 "*/}
+                            {/*        aria-label="Search"*/}
+                            {/*    />*/}
+                            {/*    <Button className={"searchButton"} variant="outline-success"><MdSearch /></Button>*/}
+                            {/*</Form>*/}
+
+
                             {/*<NavDropdown title="Dropdown" id="collasible-nav-dropdown">*/}
                             {/*    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>*/}
                             {/*    <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>*/}

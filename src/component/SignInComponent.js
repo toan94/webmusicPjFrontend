@@ -34,7 +34,7 @@ const SignInComponent = () => {
                         console.log('login ok');
                         // console.log(res);
                         // console.log(auth());
-                        history.push('/library');
+                        history.push('/Home');
                         // console.log(isAuthenticated());
                         // this.props.push('/library');
                     }else {

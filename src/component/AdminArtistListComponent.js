@@ -6,6 +6,7 @@ import ArtistListDisplayComponent from "./ArtistListDisplayComponent";
 import PaginationComponent from "./PaginationComponent";
 import SearchConfigComponent from "./SearchConfigComponent";
 import {withAuthHeader} from "react-auth-kit";
+import ForbiddenComponent from "./ForbiddenComponent";
 
 
 class AdminArtistListComponent extends React.Component {
@@ -108,6 +109,9 @@ class AdminArtistListComponent extends React.Component {
         // if(!this.props.isAuth) {
         //     this.props.history.push('/signIn');
         // }
+        if(!this.props.isAdmin) {
+            return <ForbiddenComponent />;
+        }
         return (
             <>
                 <SearchConfigComponent searchTitle={this.state.searchTitle}

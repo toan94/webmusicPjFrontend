@@ -39,6 +39,7 @@ import AdminNavBarComponent from "./component/AdminNavBarComponent";
 import AdminArtistListComponent from "./component/AdminArtistListComponent";
 import AdminSongListComponent from "./component/AdminSongListComponent";
 import AddNewAdminComponent from "./component/AddNewAdminComponent";
+import HomeComponent from "./component/HomeComponent";
 
 
 function App() {
@@ -129,9 +130,7 @@ function App() {
                   <Row className={"p-2  justify-content-start"}>
                       <Col xs={{order: 1}} sm={8}>
                           <Switch>
-                              <Route path="/library">
-                                  <LibraryComponent />
-                              </Route>
+
                               <Route path="/artists">
                                   <ArtistListComponentWithPagination history={history} isAuth={isAuthenticated()} isAdmin={isAdmin}/>
                               </Route>
@@ -168,9 +167,12 @@ function App() {
                               <Route path="/admin/newAdmin">
                                   <AddNewAdminComponent history={history} isAdmin={isAdmin}/>
                               </Route>
-                              <Route path="/admin">
-                                  <AdminComponent />
+                              <Route path="/Home">
+                                  <HomeComponent history={history} isAdmin={isAdmin}/>
                               </Route>
+                              {/*<Route path="/admin">*/}
+                              {/*    <AdminComponent />*/}
+                              {/*</Route>*/}
 
 
                               {/*<Route path="/signOut">*/}
@@ -178,36 +180,31 @@ function App() {
                               {/*</Route>*/}
                           </Switch>
                       </Col>
-                      {/*<Col xs={{order: 2}} sm={4} className={"MyListGroup"}>*/}
-                      {/*    <ul className="list-group">*/}
-                      {/*        <li className="list-group-item active" aria-current="true">An active item</li>*/}
-                      {/*        <li className="list-group-item">A second item</li>*/}
-                      {/*        <li className="list-group-item">A third item</li>*/}
-                      {/*        <li className="list-group-item">A fourth item</li>*/}
-                      {/*        <li className="list-group-item">And a fifth one</li>*/}
-                      {/*    </ul>*/}
-                      {/*    <br/>*/}
-                      {/*    <ListGroup as="ul">*/}
-                      {/*        <Image src="https://ichef.bbci.co.uk/news/976/cpsprodpb/568C/production/_118965122_gettyimages-572304327.jpg" fluid />*/}
-                      {/*    </ListGroup>*/}
-                      {/*    <br/>*/}
-                      {/*    <ListGroup as="ul">*/}
-                      {/*        <ListGroup.Item as="li" active>*/}
-                      {/*            Cras justo odio*/}
-                      {/*        </ListGroup.Item>*/}
-                      {/*        <ListGroup.Item as="li">Dapibus ac facilisis in</ListGroup.Item>*/}
-                      {/*        <ListGroup.Item as="li" disabled>*/}
-                      {/*            Morbi leo risus*/}
-                      {/*        </ListGroup.Item>*/}
-                      {/*        <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>*/}
-                      {/*        <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>*/}
-                      {/*        <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>*/}
-                      {/*        <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>*/}
-                      {/*        <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>*/}
-                      {/*        <ListGroup.Item as="li">Porta ac consectetur ac</ListGroup.Item>*/}
-                      {/*    </ListGroup>*/}
+                      <Col xs={{order: 2}} sm={4} className={"MyListGroup"}>
+                          <ul className="list-group">
+                              <li className="list-group-item text-success">A Place To Share Music</li>
+                          </ul>
+                          <br/>
+                          <ListGroup as="ul">
+                              <Image src="https://c4.wallpaperflare.com/wallpaper/941/564/17/1920x1280-px-closeup-lights-musical-instrument-plates-vinyl-animals-bugs-hd-art-wallpaper-preview.jpg" fluid />
+                          </ListGroup>
+                          <br/>
+                          {/*<ul className="list-group">*/}
+                          {/*    <li className="list-group-item">Music Is Life</li>*/}
+                          {/*    <li className="list-group-item"><Image src="https://eastonlivingston.com/wp-content/uploads/2021/04/Writing-Music.jpg" fluid /></li>*/}
+                          {/*</ul>*/}
 
-                      {/*</Col>*/}
+                          <ul className="list-group">
+                              <li className="list-group-item text-success">Connect Our Souls Together</li>
+                          </ul>
+                          <br/>
+                          <ListGroup as="ul">
+                              <Image src="https://eastonlivingston.com/wp-content/uploads/2021/04/Writing-Music.jpg" fluid />
+                          </ListGroup>
+
+
+
+                      </Col>
                   </Row>
 
               </Container>

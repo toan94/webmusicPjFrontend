@@ -5,6 +5,7 @@ import songService from "../services/songService";
 import SearchConfigComponent from "./SearchConfigComponent";
 import PaginationComponent from "./PaginationComponent";
 import {withAuthHeader, withIsAuthenticated} from "react-auth-kit";
+import ForbiddenComponent from "./ForbiddenComponent";
 
 class AdminSongListComponent extends React.Component{
 
@@ -105,9 +106,9 @@ class AdminSongListComponent extends React.Component{
 
         // console.log("authenticated  "+this.props.isAuthenticated);
         // console.log("appjs authenticated: " + this.props.isAuth);
-        // if(!this.props.isAuth) {
-        //     this.props.history.push('signIn');
-        // }
+        if(!this.props.isAdmin) {
+            return <ForbiddenComponent />;
+        }
         return (
             <>
                 <SearchConfigComponent searchTitle={this.state.searchTitle}
