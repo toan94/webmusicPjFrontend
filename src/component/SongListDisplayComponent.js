@@ -1,10 +1,11 @@
 import {Button, Card, Col, Container, Dropdown, Form, Row, Spinner} from "react-bootstrap";
 import React from "react";
-import {MdAddToQueue, MdPlayArrow, MdCheck} from "react-icons/md";
+import {MdAddToQueue, MdPlayArrow, MdCheck, MdMenu} from "react-icons/md";
 import ReactDOM from 'react-dom';
 import {withAuthHeader} from "react-auth-kit";
 import playlistService from "../services/playlistService";
 import songService from "../services/songService";
+import SongActionComponent from "./SongActionComponent";
 
 
 class SongListDisplayComponent extends React.Component {
@@ -13,7 +14,8 @@ class SongListDisplayComponent extends React.Component {
         super(props);
         this.state = {
             myPlaylists : [],
-            belongedPlaylists : []
+            belongedPlaylists : [],
+
         }
     }
 
@@ -44,7 +46,19 @@ class SongListDisplayComponent extends React.Component {
                     songList.map((song, index) => (
                         <Col className={"d-flex justify-content-center p-3 col-md-auto "}>
                             <Card border="light" style={{ width: '15rem' }} className={""}>
-                                <Card.Header>Artist: <b>{song.artist}</b></Card.Header>
+                                <Card.Header>
+                                    <span>Artist: <b>{song.artist}</b></span>
+
+                                    {
+                                        this.props.isMySongs ?
+                                            // <Button size="sm" variant="light" className="float-end p-0"><MdMenu /></Button>
+                                            <>
+                                                <SongActionComponent songId={song.id} retrieveMySongList={this.props.retrieveMySongList}/>
+                                            </>
+                                            : null
+                                    }
+
+                                </Card.Header>
                                 <Card.Body>
                                     <Card.Title>{song.name}</Card.Title>
                                 </Card.Body>

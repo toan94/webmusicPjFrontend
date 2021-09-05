@@ -7,55 +7,55 @@ import PaginationComponent from "./PaginationComponent";
 import {withRouter} from "react-router-dom";
 import {withAuthHeader} from "react-auth-kit";
 
-class SongListComponentWithPaginationPerPlaylist extends React.Component{
+class SongListComponentPerPlaylist extends React.Component{
 
 
     constructor(props) {
         super(props);
         this.state = {
             songList : [],
-            currentIndex: -1,
-            searchTitle: "",
-
-            page: 1,
-            count: 0,
-            pageSize: 3,
+            // currentIndex: -1,
+            // searchTitle: "",
+            //
+            // page: 1,
+            // count: 0,
+            // pageSize: 3,
 
             playlistId:-1,
             playlistName: "",
             creationDate: ""
         }
-        this.handlePageChange = this.handlePageChange.bind(this);
-        this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
-        this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
+        // this.handlePageChange = this.handlePageChange.bind(this);
+        // this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
+        // this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
         this.retrieveSongList = this.retrieveSongList.bind(this);
     }
 
-    onChangeSearchTitle(e) {
-        const searchTitle = e.target.value;
+    // onChangeSearchTitle(e) {
+    //     const searchTitle = e.target.value;
+    //
+    //     this.setState({
+    //         searchTitle: searchTitle,
+    //     });
+    // }
 
-        this.setState({
-            searchTitle: searchTitle,
-        });
-    }
-
-    getRequestParams(searchTitle, page, pageSize) {
-        let params = {};
-
-        if (searchTitle) {
-            params["title"] = searchTitle;
-        }
-
-        if (page) {
-            params["page"] = page - 1;
-        }
-
-        if (pageSize) {
-            params["size"] = pageSize;
-        }
-
-        return params;
-    }
+    // getRequestParams(searchTitle, page, pageSize) {
+    //     let params = {};
+    //
+    //     if (searchTitle) {
+    //         params["title"] = searchTitle;
+    //     }
+    //
+    //     if (page) {
+    //         params["page"] = page - 1;
+    //     }
+    //
+    //     if (pageSize) {
+    //         params["size"] = pageSize;
+    //     }
+    //
+    //     return params;
+    // }
 
     retrieveSongList() {
 
@@ -81,17 +81,17 @@ class SongListComponentWithPaginationPerPlaylist extends React.Component{
             });
     }
 
-    handlePageChange(event, value) {
-        // console.log(this);
-        this.setState(
-            {
-                page: value,
-            },
-            () => {
-                this.retrieveSongList();
-            }
-        );
-    }
+    // handlePageChange(event, value) {
+    //     // console.log(this);
+    //     this.setState(
+    //         {
+    //             page: value,
+    //         },
+    //         () => {
+    //             this.retrieveSongList();
+    //         }
+    //     );
+    // }
 
     componentDidMount() {
         let {playlistId}  = this.props.match.params;
@@ -99,17 +99,17 @@ class SongListComponentWithPaginationPerPlaylist extends React.Component{
 
     }
 
-    handlePageSizeChange(event) {
-        this.setState(
-            {
-                pageSize: event.target.value,
-                page: 1
-            },
-            () => {
-                this.retrieveSongList();
-            }
-        );
-    }
+    // handlePageSizeChange(event) {
+    //     this.setState(
+    //         {
+    //             pageSize: event.target.value,
+    //             page: 1
+    //         },
+    //         () => {
+    //             this.retrieveSongList();
+    //         }
+    //     );
+    // }
     render(){
 
         return (
@@ -126,4 +126,4 @@ class SongListComponentWithPaginationPerPlaylist extends React.Component{
     }
 }
 
-export default withRouter(withAuthHeader(SongListComponentWithPaginationPerPlaylist));
+export default withRouter(withAuthHeader(SongListComponentPerPlaylist));

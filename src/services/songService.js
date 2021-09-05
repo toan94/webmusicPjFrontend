@@ -27,6 +27,15 @@ class songService {
     removeFromPlaylist(playlistId, songId, authHeader) {
         return client.post("removeFromPlaylist",{playlistId: playlistId, songId: songId},{headers: {"Authorization": authHeader}});
     }
+
+    getMySongs(params, authHeader) {
+        return client.get("mySongs", {params:params, headers: {"Authorization": authHeader}});
+        // return client.get("all");
+    }
+    updateSongName(newSongName, songId, authHeader) {
+        return client.patch("editSong", {newSongName, songId}, {headers: {"Authorization": authHeader}});
+        // return client.get("all");
+    }
     // getUserBoard() {
     //     return axios.get(API_URL + 'user', { headers: authHeader() });
     // }

@@ -28,7 +28,7 @@ function NavBarComponent() {
                     title={<MdFace/>}
                     menuVariant="dark" className={"text-center"}>
 
-                    <NavDropdown.Item>Your Songs</NavDropdown.Item>
+                    <NavDropdown.Item as={NavLink} to='/mySongs'>Your Songs</NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to='/myPlaylists'>Your Playlists</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.3">Profile</NavDropdown.Item>
                     <NavDropdown.Divider />
