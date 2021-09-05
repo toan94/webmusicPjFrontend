@@ -2,7 +2,7 @@ import '../css/NavBarComponent.css'
 import {Button, Container, Dropdown, Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react'
-import {MdSearch, MdMusicNote, MdFace} from 'react-icons/md'
+import {MdSearch, MdMusicNote, MdFace, MdFileUpload} from 'react-icons/md'
 
 import {
     NavLink, useHistory
@@ -23,6 +23,7 @@ function NavBarComponent() {
     if (authCheck) {
         content =
             <>
+                <Button variant="outline-success" onClick={()=>history.push('/song/upload')}>Upload Song <MdFileUpload /></Button>
                 <NavDropdown
                     id="nav-dropdown-dark-example"
                     title={<MdFace/>}
@@ -84,6 +85,7 @@ function NavBarComponent() {
                             {/*</NavDropdown>*/}
                         </Nav>
                         <Nav>
+
                             {content}
 
 

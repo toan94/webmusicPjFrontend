@@ -14,6 +14,7 @@ class SongListComponentPerUser extends React.Component{
         super(props);
         this.state = {
             songList: []
+
         }
 
         this.retrieveSongList = this.retrieveSongList.bind(this);
@@ -23,20 +24,36 @@ class SongListComponentPerUser extends React.Component{
 
     retrieveSongList() {
 
+        if (this.props.self) {
+            songService.getMySongs({}, this.props.authHeader)
+                .then((response) => {
+                    console.log(response);
+                    const { songList } = response.data;
 
-
-        songService.getMySongs({}, this.props.authHeader)
-            .then((response) => {
-                console.log(response);
-                const { songList } = response.data;
-
-                this.setState({
-                    songList: songList,
+                    this.setState({
+                        songList: songList,
+                    });
+                })
+                .catch((e) => {
+                    console.log(e);
                 });
-            })
-            .catch((e) => {
-                console.log(e);
-            });
+        } else {
+            let {username}  = this.props.match.params;
+            songService.getSongsByUsername({username}, this.props.authHeader)
+                .then((response) => {
+                    console.log(response);
+                    const { songList } = response.data;
+
+                    this.setState({
+                        songList: songList,
+                    });
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        }
+
+
     }
 
 
@@ -55,7 +72,7 @@ class SongListComponentPerUser extends React.Component{
                 <SongListDisplayComponent  songList={this.state.songList}
                                            setAudioList={this.props.setAudioList}
                                            audioList={this.props.audioList}
-                                           isMySongs={true}
+                                           isMySongs={this.props.self}
                                            retrieveMySongList={this.retrieveSongList}
 
                 />

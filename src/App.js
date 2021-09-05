@@ -32,6 +32,7 @@ import { getToken, onMessageListener } from './firebase';
 import StripeButton from "./component/StripeCheckoutComponent";
 import SongListComponentWithPaginationPerPlaylist from "./component/SongListComponentPerPlaylist";
 import SongListComponentPerUser from "./component/SongListComponentPerUser";
+import SongUploadComponent from "./component/SongUploadComponent";
 
 
 function App() {
@@ -120,6 +121,9 @@ function App() {
                               <Route path="/register">
                                   <RegisterComponent />
                               </Route>
+                              <Route path="/song/upload">
+                                  <SongUploadComponent />
+                              </Route>
                               <Route path="/songs">
                                   <SongListComponentWithPagination setAudioList={setAudioList} audioList={audioList} />
                               </Route>
@@ -130,8 +134,12 @@ function App() {
                                   <PlaylistComponnentWithPagination setAudioList={setAudioList} audioList={audioList} history={history}/>
                               </Route>
                               <Route path="/mySongs">
-                                  <SongListComponentPerUser setAudioList={setAudioList} audioList={audioList} />
+                                  <SongListComponentPerUser setAudioList={setAudioList} audioList={audioList} self={true}/>
                               </Route>
+                              <Route path="/artist/:username">
+                                  <SongListComponentPerUser setAudioList={setAudioList} audioList={audioList} self={false}/>
+                              </Route>
+
                               {/*<Route path="/signOut">*/}
                               {/*    <SignOutComponent />*/}
                               {/*</Route>*/}

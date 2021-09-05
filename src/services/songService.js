@@ -36,6 +36,10 @@ class songService {
         return client.patch("editSong", {newSongName, songId}, {headers: {"Authorization": authHeader}});
         // return client.get("all");
     }
+    getSongsByUsername(params, authHeader) {
+        return client.get("songsOfUser", {params:params, headers: {"Authorization": authHeader}});
+        // return client.get("all");
+    }
     // getUserBoard() {
     //     return axios.get(API_URL + 'user', { headers: authHeader() });
     // }
