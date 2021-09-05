@@ -87,6 +87,7 @@ class ArtistListComponentWithPagination extends React.Component {
 
     componentDidMount() {
         // this.setState({artistList: fakeDatafn()}
+
         this.retrieveArtistList();
     }
 
@@ -104,6 +105,9 @@ class ArtistListComponentWithPagination extends React.Component {
 
     render() {
         // let artistList = this.state.artistList;
+        if(!this.props.isAuth) {
+            this.props.history.push('signIn');
+        }
         return (
             <>
                 <SearchConfigComponent searchTitle={this.state.searchTitle}

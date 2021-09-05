@@ -100,41 +100,41 @@ class RegisterComponent extends Component {
                             validations={[required, minLength]}
                         />
 
-                            <Input
-                                name="address"
-                                onChange={this.onChangeHandler}
-                                type="text"
-                                placeholder="Address"
-                                className="form-control ms-3 mt-2"
-                                validations={[required, minLength]}
-                            />
-                            <Input
-                                name="age"
-                                min="1" max="130"
-                                onChange={this.onChangeHandler}
-                                type="number"
-                                placeholder="Age"
-                                className="form-control ms-3 mt-2 w-30"
-                                validations={[required, email]}
-                            />
-                            <div className={"d-flex justify-content-start p-3"}>
-                            <Input type="radio" id="html" name="fav_language" value="HTML" className={"me-1"}/>
-                            <label htmlFor="html" className={"me-4"}>Male</label>
-                            <Input type="radio" id="css" name="fav_language" value="CSS" className={"me-1"}/>
-                            <label htmlFor="css">Female</label>
+                            {/*<Input*/}
+                            {/*    name="address"*/}
+                            {/*    onChange={this.onChangeHandler}*/}
+                            {/*    type="text"*/}
+                            {/*    placeholder="Address"*/}
+                            {/*    className="form-control ms-3 mt-2"*/}
+                            {/*    validations={[required, minLength]}*/}
+                            {/*/>*/}
+                            {/*<Input*/}
+                            {/*    name="age"*/}
+                            {/*    min="1" max="130"*/}
+                            {/*    onChange={this.onChangeHandler}*/}
+                            {/*    type="number"*/}
+                            {/*    placeholder="Age"*/}
+                            {/*    className="form-control ms-3 mt-2 w-30"*/}
+                            {/*    validations={[required, email]}*/}
+                            {/*/>*/}
+                        {/*    <div className={"d-flex justify-content-start p-3"}>*/}
+                        {/*    <Input type="radio" id="html" name="fav_language" value="HTML" className={"me-1"}/>*/}
+                        {/*    <label htmlFor="html" className={"me-4"}>Male</label>*/}
+                        {/*    <Input type="radio" id="css" name="fav_language" value="CSS" className={"me-1"}/>*/}
+                        {/*    <label htmlFor="css">Female</label>*/}
 
-                            </div>
-                        <Input
-                                name="email"
-                                type="checkbox"
-                                id="genderF"
-                                name="Gender"
-                                value="Female"
-                                className=""
-                            />
-                            <label htmlFor="genderF"> Female</label>
-                            <Input type="checkbox"  name="vehicle1" value="Bike"/>
-                                <label htmlFor="vehicle1"> I have a bike</label>
+                        {/*    </div>*/}
+                        {/*<Input*/}
+                        {/*        name="email"*/}
+                        {/*        type="checkbox"*/}
+                        {/*        id="genderF"*/}
+                        {/*        name="Gender"*/}
+                        {/*        value="Female"*/}
+                        {/*        className=""*/}
+                        {/*    />*/}
+                        {/*    <label htmlFor="genderF"> Female</label>*/}
+                        {/*    <Input type="checkbox"  name="vehicle1" value="Bike"/>*/}
+                        {/*        <label htmlFor="vehicle1"> I have a bike</label>*/}
                         <button className="btn btn-outline-success btn-block login ms-3 mt-3" type="submit">Register</button>
                         <CheckButton style={{ display: 'none' }} ref={c => { this.checkBtn = c }} />
                     </Form>:<h1 className={"text-success"}>{this.state.signUpRequestStatus}</h1>}

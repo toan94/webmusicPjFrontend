@@ -4,6 +4,7 @@ import playlistService from "../services/playlistService";
 import React from "react";
 import songService from "../services/songService";
 import {withAuthHeader} from "react-auth-kit";
+import {withRouter} from "react-router-dom";
 
 class SongActionComponent extends React.Component {
 
@@ -30,7 +31,7 @@ class SongActionComponent extends React.Component {
                         <Dropdown.Item onClick={()=>this.setState({showEditName:true})}>
                             Edit Song Name
                         </Dropdown.Item>
-                        <Dropdown.Item >Mark As For Sale</Dropdown.Item>
+                        {/*<Dropdown.Item >Mark As For Sale</Dropdown.Item>*/}
                         <Dropdown.Divider />
                         <Dropdown.Item  className="text-danger" onClick={()=>this.setState({showDeleteConfirmation:true})}>Delete</Dropdown.Item>
                     </Dropdown.Menu>
@@ -100,7 +101,14 @@ class SongActionComponent extends React.Component {
 
                     {/*</Modal.Body>*/}
                     <Modal.Footer>
-                        <Button variant="outline-danger" className="">Delete</Button>
+                        <Button variant="outline-danger" onClick={()=>{
+                            console.log(this.props.songId);
+                            songService.deleteSong(this.props.songId, this.props.authHeader).then((res)=>{
+                                this.setState({showDeleteConfirmation: false});
+                                // this.props.history.push('/mySongs');
+                                this.props.retrieveMySongList();
+                            }).catch(err =>console.log(err));
+                        }}>Delete</Button>
                         <Button variant="secondary" onClick={()=>this.setState({showDeleteConfirmation: false})}>Cancel</Button>
                     </Modal.Footer>
                 </Modal>
@@ -109,4 +117,4 @@ class SongActionComponent extends React.Component {
     }
 }
 
-export default withAuthHeader(SongActionComponent);
+export default withRouter(withAuthHeader(SongActionComponent));

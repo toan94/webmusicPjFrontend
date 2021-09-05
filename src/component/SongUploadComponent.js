@@ -8,6 +8,7 @@ import isEmpty from "validator/es/lib/isEmpty";
 import isEmail from "validator/es/lib/isEmail";
 import CheckButton from 'react-validation/build/button';
 import axios from "axios";
+import {withAuthHeader} from "react-auth-kit";
 
 const required = (value) => {
     if (isEmpty(value)) {
@@ -51,12 +52,14 @@ class SongUploadComponent extends Component {
             formData.append("file", e.target.songFile.files[0]);
             formData.append("songName", e.target.songName.value);
 
-            axios.post('http://localhost:8080/api/songs/upload', formData, {headers: {'Content-Type': 'multipart/form-data'}})
+            axios.post('http://localhost:8080/api/songs/upload', formData,
+                {headers: {'Content-Type': 'multipart/form-data', "Authorization": this.props.authHeader}})
                 .then((res)=>{
                     if(res.status === 200) {
                         // this.setState({signUpRequestStatus: "Registration success! You will be redirected " +
                         //         "in 5 seconds", done:true},()=> setTimeout(()=>this.props.history.push('/signIn'), 5000));
-                        console.log(res);
+                        // console.log(res);
+                        this.props.history.push('/mySongs');
                     }
                 }, (err)=>{
                     // this.setState({failureNotification: "Registration failed please choose another Username or Email"});
@@ -102,4 +105,4 @@ class SongUploadComponent extends Component {
         </div>);
     }
 }
-export default withRouter(SongUploadComponent)
+export default withAuthHeader(withRouter(SongUploadComponent))

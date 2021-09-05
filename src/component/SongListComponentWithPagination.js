@@ -4,8 +4,9 @@ import SongListDisplayComponent from "./SongListDisplayComponent";
 import songService from "../services/songService";
 import SearchConfigComponent from "./SearchConfigComponent";
 import PaginationComponent from "./PaginationComponent";
+import {withAuthHeader, withIsAuthenticated} from "react-auth-kit";
 
-export default class SongListComponentWithPagination extends React.Component{
+class SongListComponentWithPagination extends React.Component{
 
 
     constructor(props) {
@@ -102,6 +103,11 @@ export default class SongListComponentWithPagination extends React.Component{
     }
     render(){
 
+        // console.log("authenticated  "+this.props.isAuthenticated);
+        // console.log("appjs authenticated: " + this.props.isAuth);
+        if(!this.props.isAuth) {
+            this.props.history.push('signIn');
+        }
         return (
             <>
                 <SearchConfigComponent searchTitle={this.state.searchTitle}
@@ -120,3 +126,5 @@ export default class SongListComponentWithPagination extends React.Component{
         )
     }
 }
+
+export default withAuthHeader(SongListComponentWithPagination);

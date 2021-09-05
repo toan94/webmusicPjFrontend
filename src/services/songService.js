@@ -40,6 +40,9 @@ class songService {
         return client.get("songsOfUser", {params:params, headers: {"Authorization": authHeader}});
         // return client.get("all");
     }
+    deleteSong(songId, authHeader) {
+        return client.post("deleteSong",{songId: songId},{headers: {"Authorization": authHeader}});
+    }
     // getUserBoard() {
     //     return axios.get(API_URL + 'user', { headers: authHeader() });
     // }

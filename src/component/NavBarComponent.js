@@ -19,7 +19,7 @@ function NavBarComponent() {
     let history = useHistory();
 
     let content;
-    console.log(authCheck);
+    console.log("navbar authcheck"+authCheck);
     if (authCheck) {
         content =
             <>
@@ -31,7 +31,7 @@ function NavBarComponent() {
 
                     <NavDropdown.Item as={NavLink} to='/mySongs'>Your Songs</NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to='/myPlaylists'>Your Playlists</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Profile</NavDropdown.Item>
+                    {/*<NavDropdown.Item href="#action/3.3">Profile</NavDropdown.Item>*/}
                     <NavDropdown.Divider />
                     <NavDropdown.Item onClick={()=>{signOut(); history.push('/artists')}} className={"text-danger"}>
                         {/*<Button variant="outline-danger" onClick={()=>{signOut(); history.push('/artists')}}>Logout</Button>*/}

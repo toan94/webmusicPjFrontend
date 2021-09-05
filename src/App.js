@@ -33,6 +33,8 @@ import StripeButton from "./component/StripeCheckoutComponent";
 import SongListComponentWithPaginationPerPlaylist from "./component/SongListComponentPerPlaylist";
 import SongListComponentPerUser from "./component/SongListComponentPerUser";
 import SongUploadComponent from "./component/SongUploadComponent";
+import {useIsAuthenticated} from "react-auth-kit";
+import AdminComponent from "./component/AdminComponent";
 
 
 function App() {
@@ -43,6 +45,7 @@ function App() {
         // { musicSrc: 'https://toantestt.s3.amazonaws.com/TangEmMotBauTroi-LuongGiaHuy-2945059.mp3' }
     ])
     const aPlayer = useRef(null);
+    const isAuthenticated = useIsAuthenticated();
     // useEffect(() => {
     //     setTimeout(() => {
     //         setAudioList([{ musicSrc: 'https://toantestt.s3.amazonaws.com/gg.mp3' }, { musicSrc: 'https://toantestt.s3.amazonaws.com/gg.mp3' }])
@@ -113,7 +116,7 @@ function App() {
                                   <LibraryComponent />
                               </Route>
                               <Route path="/artists">
-                                  <ArtistListComponentWithPagination />
+                                  <ArtistListComponentWithPagination history={history} isAuth={isAuthenticated()}/>
                               </Route>
                               <Route path="/signIn">
                                   <SignInComponent />
@@ -125,7 +128,7 @@ function App() {
                                   <SongUploadComponent />
                               </Route>
                               <Route path="/songs">
-                                  <SongListComponentWithPagination setAudioList={setAudioList} audioList={audioList} />
+                                  <SongListComponentWithPagination setAudioList={setAudioList} audioList={audioList} history={history} isAuth={isAuthenticated()}/>
                               </Route>
                               <Route path="/myPlaylists/:playlistId">
                                   <SongListComponentWithPaginationPerPlaylist setAudioList={setAudioList} audioList={audioList} history={history}/>
@@ -138,6 +141,9 @@ function App() {
                               </Route>
                               <Route path="/artist/:username">
                                   <SongListComponentPerUser setAudioList={setAudioList} audioList={audioList} self={false}/>
+                              </Route>
+                              <Route path="/admin">
+                                  <AdminComponent />
                               </Route>
 
                               {/*<Route path="/signOut">*/}
