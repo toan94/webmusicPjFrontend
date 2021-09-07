@@ -52,22 +52,20 @@ class ArtistListDisplayComponent extends React.Component {
                                                 }}>See Artist</Button>
                                                     {
                                                         !this.props.subbed.includes(artist.name) ?
-                                                        <Button onClick={()=>{
+                                                        <Button className="ms-2" variant="outline-dark" onClick={()=>{
                                                             firebaseService.subscribeTo(artist.name, this.props.authHeader).then((res)=>{
-                                                                console.log(res);
                                                                 this.props.retrieveArtistList();
                                                             }).catch(err=>{
                                                                 console.log(err);
                                                             })
                                                         }}>Subscribe</Button> :
-                                                        <Button onClick={()=>{
+                                                        <Button className="ms-2" variant="outline-dark" onClick={()=>{
                                                             firebaseService.unSubscribeFrom(artist.name, this.props.authHeader).then((res)=>{
-                                                                console.log(res);
                                                                 this.props.retrieveArtistList();
                                                             }).catch(err=>{
                                                                 console.log(err);
                                                             })
-                                                        }}>unsub</Button>
+                                                        }}>UnSub</Button>
                                                     }
                                                 </>
                                             )

@@ -2,7 +2,9 @@ import '../css/NavBarComponent.css'
 import {Button, Container, Dropdown, Modal, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState} from 'react'
-import {MdSearch, MdMusicNote, MdFace, MdFileUpload, MdNotifications, MdNotificationsActive} from 'react-icons/md'
+import {MdSearch, MdMusicNote, MdFace, MdFileUpload} from 'react-icons/md'
+import { NotificationImportantSharp, NotificationsNone  } from '@material-ui/icons';
+
 
 import {
     NavLink, useHistory
@@ -18,7 +20,7 @@ import firebaseService from "../services/firebaseService";
 import '../css/dropdown.css'
 import notificationService from "../services/notificationService";
 
-function NavBarComponent() {
+function NavBarComponent({activeNotification, setActiveNotification}) {
 
     const isAuthenticated = useIsAuthenticated()
     let authCheck = isAuthenticated();
@@ -63,9 +65,10 @@ function NavBarComponent() {
                 </NavDropdown>
 
                 {/*notification */}
-                <NavDropdown title={<MdNotificationsActive />} id="nav-dropdown" className={"text-center" +
+                <NavDropdown title={activeNotification ? <NotificationImportantSharp/> : <NotificationsNone />} id="nav-dropdown" className={"text-center" +
                 " notification"} menuVariant="dark" onToggle={(expanded)=>{
                     if (expanded) {
+                        setActiveNotification(false);
                         notificationService.getNotifications(authHeader()).then((res)=>{
                             setMessages(res.data.messages);
                         }).catch(e=>console.log(e));

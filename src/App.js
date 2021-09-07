@@ -73,16 +73,13 @@ function App() {
     const [isTokenFound, setTokenFound] = useState(false);
     // const [pushdata, setPushdata] = useState('');
     const [time, setTime] = useState('');
-
+    const [activeNotification, setActiveNotification] = useState(false);
 
     // getToken(setTokenFound);
     onMessageListener().then(payload => {
         setShow(true);
         setNotification({title: payload.notification.title, body: payload.notification.body});
-        // setPushdata(payload.data.key1);
-        // console.log(payload +"GG");
-        //  console.log(payload.data);
-
+        setActiveNotification(true);
         var today = new Date();
         var date = (today.getMonth()+1)+'-'+today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -98,13 +95,14 @@ function App() {
 
           <>
               {
-                  roles.includes("ROLE_ADMIN") ? <AdminNavBarComponent /> : <NavBarComponent />
+                  roles.includes("ROLE_ADMIN") ?
+                      <AdminNavBarComponent /> : <NavBarComponent activeNotification={activeNotification} setActiveNotification={setActiveNotification}/>
               }
 
               {/*<StripeButton price="969" />*/}
-                <Button onClick={()=>{
-                    delToken();
-                }}>delete</Button>
+              {/*  <Button onClick={()=>{*/}
+              {/*      delToken();*/}
+              {/*  }}>delete</Button>*/}
                   <Toast onClose={() => setShow(false)} show={show} delay={8000} autohide animation style={{
                       position: 'absolute',
                       top: 20,
@@ -125,11 +123,11 @@ function App() {
 
 
                   </Toast>
-                  <header>
-                      {isTokenFound && <h1> Notification permission enabled 👍🏻 </h1>}
-                      {!isTokenFound && <h1> Need notification permission ❗️ </h1>}
-                      <Button onClick={() => setShow(true)}>Show Toast</Button>
-                  </header>
+              {/*    <header>*/}
+              {/*        {isTokenFound && <h1> Notification permission enabled 👍🏻 </h1>}*/}
+              {/*        {!isTokenFound && <h1> Need notification permission ❗️ </h1>}*/}
+              {/*        <Button onClick={() => setShow(true)}>Show Toast</Button>*/}
+              {/*    </header>*/}
 
 
 
