@@ -1,19 +1,22 @@
 import React from "react"
 import axios from 'axios'
-import { useSignIn } from 'react-auth-kit'
+import {useAuthHeader, useSignIn} from 'react-auth-kit'
 import {useAuthUser} from 'react-auth-kit'
 import {useIsAuthenticated} from 'react-auth-kit';
 import { useHistory } from "react-router-dom";
 import {Button, Form} from "react-bootstrap";
+import {getToken} from "../firebase";
+import firebaseService from "../services/firebaseService";
 
 
-const SignInComponent = () => {
+const SignInComponent = ({setTokenFound}) => {
     const signIn = useSignIn()
     const [formData, setFormData] = React.useState({username: '', password: ''})
     const [failureNotification, setFailureNotification] = React.useState("");
     const auth = useAuthUser()
     const isAuthenticated = useIsAuthenticated()
     let history = useHistory();
+    const authHeader = useAuthHeader();
 
     // let {history} =this.props;
     const onSubmit = (e) => {
@@ -31,12 +34,34 @@ const SignInComponent = () => {
                         // refreshToken: res.data.refreshToken,                    // Only if you are using refreshToken feature
                         // refreshTokenExpireIn: res.data.refreshTokenExpireIn})){ // Only if you are using refreshToken feature
                         // Redirect or do-something
-                        console.log('login ok');
+                        // console.log('login ok');
                         // console.log(res);
                         // console.log(auth());
+                        getToken(setTokenFound).then(currentToken => {
+                            if (currentToken) {
+                                console.log('current token for client: ', currentToken);
+                                setTokenFound(true);
+                                // Track the token -> client mapping, by sending to backend server
+                                // show on the UI that permission is secured
+                                let authorizationHeader = "Bearer " + res.data.accessToken;
+                                console.log("authorization header: "+authorizationHeader);
+                                console.log("auth header : "+authHeader());
+                                firebaseService.saveToken(currentToken, authorizationHeader).then((res)=>{
+                                    console.log(res);
+                                });
+                            } else {
+                                console.log('No registration token available. Request permission to generate one.');
+                                setTokenFound(false);
+                                // shows on the UI that permission is required
+                            }
+                        }).catch((err) => {
+                            console.log('An error occurred while retrieving token. ', err);
+                            // catch error while creating client token
+                        });
                         history.push('/Home');
                         // console.log(isAuthenticated());
                         // this.props.push('/library');
+
                     }else {
                         //Throw error
                     }

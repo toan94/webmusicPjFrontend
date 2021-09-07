@@ -22,7 +22,7 @@ import FooterComponent from "./component/FooterComponent";
 import PlaylistListDisplayComponent from "./component/PlaylistListDisplayComponent";
 import PlaylistComponnentWithPagination from "./component/PlaylistComponnentWithPagination";
 // import './scss/custom.scss'
-import FbApp, {deleteToken} from './firebase'
+import FbApp, {deleteToken, delToken} from './firebase'
 // import * as firebase from 'firebase/app';
 // import '@firebase/messaging';
 
@@ -71,15 +71,15 @@ function App() {
     const [show, setShow] = useState(false);
     const [notification, setNotification] = useState({title: '', body: ''});
     const [isTokenFound, setTokenFound] = useState(false);
-    const [pushdata, setPushdata] = useState('');
+    // const [pushdata, setPushdata] = useState('');
     const [time, setTime] = useState('');
 
 
-    getToken(setTokenFound);
+    // getToken(setTokenFound);
     onMessageListener().then(payload => {
         setShow(true);
         setNotification({title: payload.notification.title, body: payload.notification.body});
-        setPushdata(payload.data.key1);
+        // setPushdata(payload.data.key1);
         // console.log(payload +"GG");
         //  console.log(payload.data);
 
@@ -89,6 +89,7 @@ function App() {
         var dateTime = date+' '+time;
          setTime(dateTime);
 
+         history.push(payload.data.url);
     }).catch(err => console.log('failed: ', err));
 
 
@@ -101,30 +102,35 @@ function App() {
               }
 
               {/*<StripeButton price="969" />*/}
-              {/*  <Button onClick={()=>{*/}
-              {/*      deleteToken();*/}
-              {/*  }}>delete</Button>*/}
-              {/*<div className="App">*/}
-              {/*    <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide animation style={{*/}
-              {/*        position: 'absolute',*/}
-              {/*        top: 20,*/}
-              {/*        right: 20,*/}
-              {/*        minWidth: 200*/}
-              {/*    }}>*/}
-              {/*        <Toast.Header>*/}
+                <Button onClick={()=>{
+                    delToken();
+                }}>delete</Button>
+                  <Toast onClose={() => setShow(false)} show={show} delay={8000} autohide animation style={{
+                      position: 'absolute',
+                      top: 20,
+                      right: 20,
+                      minWidth: 100
+                  }}>
+                      <Toast.Header>
 
-              {/*            <strong className="mr-auto">{notification.title}</strong>*/}
-              {/*            <small>{time}</small>*/}
-              {/*        </Toast.Header>*/}
-              {/*        <Toast.Body>{pushdata}</Toast.Body>*/}
-              {/*    </Toast>*/}
-              {/*    <header className="App-header">*/}
-              {/*        {isTokenFound && <h1> Notification permission enabled 👍🏻 </h1>}*/}
-              {/*        {!isTokenFound && <h1> Need notification permission ❗️ </h1>}*/}
-              {/*        <Button onClick={() => setShow(true)}>Show Toast</Button>*/}
-              {/*    </header>*/}
+                          <strong className="mr-auto">{notification.title}</strong>
 
-              {/*</div>*/}
+                      </Toast.Header>
+                      <Toast.Body>
+                          <h6 className="text-success">
+                          {notification.body}</h6>
+
+                          <small>{time}</small>
+                      </Toast.Body>
+
+
+                  </Toast>
+                  <header>
+                      {isTokenFound && <h1> Notification permission enabled 👍🏻 </h1>}
+                      {!isTokenFound && <h1> Need notification permission ❗️ </h1>}
+                      <Button onClick={() => setShow(true)}>Show Toast</Button>
+                  </header>
+
 
 
               <Container className={"bg-white w-75 pt-5" }>
@@ -138,7 +144,7 @@ function App() {
                                   <ArtistListComponentWithPagination history={history} isAuth={isAuthenticated()} isAdmin={isAdmin}/>
                               </Route>
                               <Route path="/signIn">
-                                  <SignInComponent />
+                                  <SignInComponent setTokenFound={setTokenFound}/>
                               </Route>
                               <Route path="/register">
                                   <RegisterComponent />

@@ -1,5 +1,6 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/messaging';
+import firebaseService from "./services/firebaseService";
 
 var firebaseConfig = {
     apiKey: "AIzaSyDRIS3KDLyXHycWhAW2UbDRPsVLEuLAYtQ",
@@ -15,21 +16,22 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 export const getToken = (setTokenFound) => {
-    return messaging.getToken({vapidKey: 'BCyGNrY50yef5K2IqRz-A0xJcC_dkKCEO7SF98uVNf7xUxDG62LuJHPTsQyYSQm9hyqzbz6qXb-rbO7nbu3D1yU'}).then((currentToken) => {
-        if (currentToken) {
-            console.log('current token for client: ', currentToken);
-            setTokenFound(true);
-            // Track the token -> client mapping, by sending to backend server
-            // show on the UI that permission is secured
-        } else {
-            console.log('No registration token available. Request permission to generate one.');
-            setTokenFound(false);
-            // shows on the UI that permission is required
-        }
-    }).catch((err) => {
-        console.log('An error occurred while retrieving token. ', err);
-        // catch error while creating client token
-    });
+    return messaging.getToken({vapidKey: 'BCyGNrY50yef5K2IqRz-A0xJcC_dkKCEO7SF98uVNf7xUxDG62LuJHPTsQyYSQm9hyqzbz6qXb-rbO7nbu3D1yU'})
+    //     .then((currentToken) => {
+    //     if (currentToken) {
+    //         console.log('current token for client: ', currentToken);
+    //         setTokenFound(true);
+    //         // Track the token -> client mapping, by sending to backend server
+    //         // show on the UI that permission is secured
+    //     } else {
+    //         console.log('No registration token available. Request permission to generate one.');
+    //         setTokenFound(false);
+    //         // shows on the UI that permission is required
+    //     }
+    // }).catch((err) => {
+    //     console.log('An error occurred while retrieving token. ', err);
+    //     // catch error while creating client token
+    // });
 }
 
 export const onMessageListener = () =>
@@ -41,6 +43,6 @@ export const onMessageListener = () =>
     });
 
 
-export const deleteToken = ()=> {
-    firebase.messaging().deleteToken().then((f)=> console.log("fullfilment value: " +f));
+export const delToken = ()=> {
+    return firebase.messaging().deleteToken();
 }

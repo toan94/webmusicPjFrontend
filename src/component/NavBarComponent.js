@@ -13,6 +13,8 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import Form from "react-validation/build/form";
 import axios from "axios";
+import {deleteToken, delToken} from "../firebase";
+import firebaseService from "../services/firebaseService";
 
 
 function NavBarComponent() {
@@ -41,7 +43,18 @@ function NavBarComponent() {
                     <NavDropdown.Item as={NavLink} to='/myPlaylists'>Your Playlists</NavDropdown.Item>
                     <NavDropdown.Item onClick={()=>setShow(true)}>Change Avatar</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={()=>{signOut(); history.push('/Home')}} className={"text-danger"}>
+                    <NavDropdown.Item onClick={()=>{
+                        delToken().then(fulfillmentValue => {
+                            firebaseService.delToken(authHeader()).then(res=>{
+                                console.log(res);
+                                signOut();
+
+                            });
+
+                        });
+
+                        history.push('/Home');
+                    }} className={"text-danger"}>
                         {/*<Button variant="outline-danger" onClick={()=>{signOut(); history.push('/artists')}}>Logout</Button>*/}
                         Log Out
                     </NavDropdown.Item>

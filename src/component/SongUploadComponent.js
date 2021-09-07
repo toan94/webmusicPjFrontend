@@ -8,7 +8,8 @@ import isEmpty from "validator/es/lib/isEmpty";
 import isEmail from "validator/es/lib/isEmail";
 import CheckButton from 'react-validation/build/button';
 import axios from "axios";
-import {withAuthHeader} from "react-auth-kit";
+import {withAuthHeader, withAuthUser} from "react-auth-kit";
+import firebaseService from "../services/firebaseService";
 
 const required = (value) => {
     if (isEmpty(value)) {
@@ -58,8 +59,17 @@ class SongUploadComponent extends Component {
                     if(res.status === 200) {
                         // this.setState({signUpRequestStatus: "Registration success! You will be redirected " +
                         //         "in 5 seconds", done:true},()=> setTimeout(()=>this.props.history.push('/signIn'), 5000));
-                        // console.log(res);
-                        this.props.history.push('/mySongs');
+                        console.log(this.props.authState);
+                        let note = {
+                            subject : this.props.authState.name + " uploaded a new song",
+                            content: "song name: " + e.target.songName.value,
+                            data: {url: "/artist/The Beatles"}
+                        }
+                        firebaseService.sendPush(this.props.authState.name, note, this.props.authHeader).then((res)=>{
+                            console.log(res);
+                            this.props.history.push('/mySongs');
+                        }).catch(e=>console.log(e));
+
                     }
                 }, (err)=>{
                     // this.setState({failureNotification: "Registration failed please choose another Username or Email"});
@@ -86,7 +96,7 @@ class SongUploadComponent extends Component {
                                 type="text"
                                 placeholder="Song Name"
                                 className="form-control ms-3 mt-2"
-                                validations={[required, minLength]}
+                                validations={[required]}
                             />
                             <Input
                                 name="songFile"
@@ -105,4 +115,4 @@ class SongUploadComponent extends Component {
         </div>);
     }
 }
-export default withAuthHeader(withRouter(SongUploadComponent))
+export default withAuthUser(withAuthHeader(withRouter(SongUploadComponent)))

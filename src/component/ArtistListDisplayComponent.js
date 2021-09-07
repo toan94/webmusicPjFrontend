@@ -4,6 +4,7 @@ import artistService from "../services/artistService";
 import {withRouter} from "react-router-dom";
 import {withAuthHeader} from "react-auth-kit";
 import adminService from "../services/adminService";
+import firebaseService from "../services/firebaseService";
 
 class ArtistListDisplayComponent extends React.Component {
 
@@ -39,13 +40,41 @@ class ArtistListDisplayComponent extends React.Component {
                                         this.props.isAdmin
                                             ? <Button variant="outline-danger" onClick={()=>{
                                                 adminService.deleteArtist(artist.name, this.props.authHeader).then((res)=>{
-                                                    console.log(res);
+                                                    // console.log(res);
                                                     this.props.retrieveArtistList();
                                                 }).catch(err=>console.log(err));
                                             }}>Delete</Button>
-                                            : <Button variant="outline-dark" onClick={() => {
-                                                this.props.history.push(`/artist/${artist.name}`)
-                                            }}>See Artist</Button>
+                                            : (
+                                                <>
+
+                                                    <Button variant="outline-dark" onClick={() => {
+                                                    this.props.history.push(`/artist/${artist.name}`)
+                                                }}>See Artist</Button>
+                                                    {
+                                                        !this.props.subbed.includes(artist.name) ?
+                                                        <Button onClick={()=>{
+                                                            firebaseService.subscribeTo(artist.name, this.props.authHeader).then((res)=>{
+                                                                console.log(res);
+                                                                this.props.retrieveArtistList();
+                                                            }).catch(err=>{
+                                                                console.log(err);
+                                                            })
+                                                        }}>Subscribe</Button> :
+                                                        <Button onClick={()=>{
+                                                            firebaseService.unSubscribeFrom(artist.name, this.props.authHeader).then((res)=>{
+                                                                console.log(res);
+                                                                this.props.retrieveArtistList();
+                                                            }).catch(err=>{
+                                                                console.log(err);
+                                                            })
+                                                        }}>unsub</Button>
+                                                    }
+                                                </>
+                                            )
+
+
+
+
                                     }
 
                                 </Card.Body>

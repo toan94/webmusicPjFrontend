@@ -15,6 +15,12 @@ const required = (value) => {
     }
 }
 
+const noUnderscoreAndComma = (value) => {
+    if (value.includes("_") || value.includes(",")) {
+        return <small className="form-text text-danger ms-3">Underscore and comma are not allowed</small>;
+    }
+}
+
 const email = (value) => {
     if (!isEmail(value)) {
         return <small className="form-text text-danger ms-3">Invalid email format</small>;
@@ -81,7 +87,7 @@ class RegisterComponent extends Component {
                             type="text"
                             placeholder="UserName"
                             className="form-control ms-3 mt-2"
-                            validations={[required, minLength]}
+                            validations={[required, minLength, noUnderscoreAndComma]}
                         />
                         <Input
                             name="email"

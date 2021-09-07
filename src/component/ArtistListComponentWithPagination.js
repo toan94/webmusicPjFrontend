@@ -19,7 +19,9 @@ class ArtistListComponentWithPagination extends React.Component {
 
             page: 1,
             count: 0,
-            pageSize: 3,
+            pageSize: 9,
+
+            subbed: [],
         }
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
@@ -55,16 +57,17 @@ class ArtistListComponentWithPagination extends React.Component {
 
     retrieveArtistList() {
 
-        const { searchTitle, page, pageSize } = this.state;
+        const { searchTitle, page, pageSize, subbed } = this.state;
         const params = this.getRequestParams(searchTitle, page, pageSize);
 
         artistService.getArtistList(params, this.props.authHeader)
             .then((response) => {
-                const { artistList, totalPages } = response.data;
+                const { artistList, totalPages, subbed } = response.data;
 
                 this.setState({
                     artistList: artistList,
                     count: totalPages,
+                    subbed: subbed,
                 });
                 // console.log(response.data);
             })
@@ -117,7 +120,11 @@ class ArtistListComponentWithPagination extends React.Component {
                                        handlePageSizeChange={this.handlePageSizeChange}
                                        pageSize={this.state.pageSize}
                 />
-                <ArtistListDisplayComponent artistList={this.state.artistList} isAdmin={this.props.isAdmin} />
+                <ArtistListDisplayComponent artistList={this.state.artistList}
+                                            subbed={this.state.subbed}
+                                            isAdmin={this.props.isAdmin}
+                                            retrieveArtistList={this.retrieveArtistList}
+                />
                 <PaginationComponent count={this.state.count} page={this.state.page} handlePageChange={this.handlePageChange}/>
             </>
         )
