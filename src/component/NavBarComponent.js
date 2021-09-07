@@ -2,7 +2,7 @@ import '../css/NavBarComponent.css'
 import {Button, Container, Dropdown, Modal, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState} from 'react'
-import {MdSearch, MdMusicNote, MdFace, MdFileUpload} from 'react-icons/md'
+import {MdSearch, MdMusicNote, MdFace, MdFileUpload, MdNotifications, MdNotificationsActive} from 'react-icons/md'
 
 import {
     NavLink, useHistory
@@ -15,7 +15,8 @@ import Form from "react-validation/build/form";
 import axios from "axios";
 import {deleteToken, delToken} from "../firebase";
 import firebaseService from "../services/firebaseService";
-
+import '../css/dropdown.css'
+import notificationService from "../services/notificationService";
 
 function NavBarComponent() {
 
@@ -26,6 +27,7 @@ function NavBarComponent() {
     let history = useHistory();
     const [show, setShow] = useState(false);
     const authHeader = useAuthHeader();
+    const [messages, setMessages] = useState([]);
 
 
     let content;
@@ -59,6 +61,40 @@ function NavBarComponent() {
                         Log Out
                     </NavDropdown.Item>
                 </NavDropdown>
+
+                {/*notification */}
+                <NavDropdown title={<MdNotificationsActive />} id="nav-dropdown" className={"text-center" +
+                " notification"} menuVariant="dark" onToggle={(expanded)=>{
+                    if (expanded) {
+                        notificationService.getNotifications(authHeader()).then((res)=>{
+                            setMessages(res.data.messages);
+                        }).catch(e=>console.log(e));
+                    }
+                }
+                }>
+                    {/*<NavDropdown.Item eventKey="4.1">*/}
+                    {/*    <h6>XXxxxX uploaded a new song</h6>*/}
+                    {/*    <p className="" style={{fontSize: "0.9em"}}>Song name: the god of the new world</p>*/}
+                    {/*    <p className="m-0 text-end" style={{fontSize: "0.80em"}}>26-7-2012 11:11:11</p>*/}
+                    {/*</NavDropdown.Item>*/}
+                    {/*<hr/>*/}
+
+                    {
+                        messages.map((message, index)=>(
+                            <>
+                                <NavDropdown.Item onClick={()=>{history.push(`${message.url}`)}}>
+                                    <h6>{message.subject}</h6>
+                                    <p className="" style={{fontSize: "0.9em"}}>{message.content}</p>
+                                    <p className="m-0 text-end" style={{fontSize: "0.80em"}}>{message.creationDate}</p>
+                                </NavDropdown.Item>
+                                <hr/>
+                            </>
+                        ))
+                    }
+
+                </NavDropdown>
+
+
 
             </>
                 } else {
