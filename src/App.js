@@ -23,7 +23,7 @@ import NavBarComponent from "./component/NavBarComponent";
 import LibraryComponent from './component/LibraryComponent'
 import {
     Switch,
-    Route, useHistory
+    Route, useHistory, useLocation
 } from "react-router-dom";
 import SignInComponent from "./component/SignInComponent";
 import SignOutComponent from "./component/SignOutComponent";
@@ -61,6 +61,7 @@ function App() {
 
 
     const history = useHistory();
+    const location = useLocation();
     const [audioList, setAudioList] = useState([
         // { musicSrc: 'https://toantestt.s3.amazonaws.com/TangEmMotBauTroi-LuongGiaHuy-2945059.mp3' }
     ])
@@ -176,7 +177,8 @@ function App() {
                                   <SongUploadComponent />
                               </Route>
                               <Route path="/songs">
-                                  <SongListComponentWithPagination setCoinAmount={setCoinAmount} setAudioList={setAudioList} audioList={audioList} history={history} isAuth={isAuthenticated()}/>
+                                  <SongListComponentWithPagination location={location}
+                                      setCoinAmount={setCoinAmount} setAudioList={setAudioList} audioList={audioList} history={history} isAuth={isAuthenticated()}/>
                               </Route>
 
                               <Route path="/myPlaylists/:playlistId">
@@ -224,10 +226,14 @@ function App() {
                           {/*<br/>*/}
 
 
-                                  <Form>
+                                  <Form onSubmit={(e)=>{
+                                      e.preventDefault();
+                                      console.log(e.target.searchTitle.value);
+                                      history.push(`/songs?searchTitle=${e.target.searchTitle.value}`);
+                                  }}>
                                       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                           <Form.Label className="text-success">Search For Song</Form.Label>
-                                          <Form.Control type="text" placeholder="Song Name" />
+                                          <Form.Control type="text" placeholder="Song Name" name="searchTitle"/>
                                       </Form.Group>
                                   </Form>
 

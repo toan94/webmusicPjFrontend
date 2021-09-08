@@ -13,6 +13,13 @@ class SongListComponentWithPagination extends React.Component{
     constructor(props) {
         super(props);
         let {genre}  = this.props.match.params;
+
+        // const search = this.props.location.search;
+        // let defaultSearchTitle = new URLSearchParams(search).get('searchTitle');
+        // defaultSearchTitle = defaultSearchTitle != null ? defaultSearchTitle : "";
+        // console.log("default constructor: "+defaultSearchTitle);
+
+        // console.log(props.location);
         this.state = {
             songList : [],
             currentIndex: -1,
@@ -33,6 +40,17 @@ class SongListComponentWithPagination extends React.Component{
 
     updateGenre(genre, callback) {
         this.setState({genre:genre}, callback)
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.location.search !== prevProps.location.search) {
+            console.log("search changed");
+            let search = this.props.location.search;
+            let defaultSearchTitle = new URLSearchParams(search).get('searchTitle');
+            this.setState({searchTitle: defaultSearchTitle}, this.retrieveSongList);
+
+            // this.props.retrieveListWithPurchaseState();
+        }
     }
 
     onChangeSearchTitle(e) {
@@ -101,7 +119,14 @@ class SongListComponentWithPagination extends React.Component{
 
     componentDidMount() {
         console.log("inside: "+ this.state.genre);
-        this.retrieveSongList();
+
+        const search = this.props.location.search;
+        let defaultSearchTitle = new URLSearchParams(search).get('searchTitle');
+        defaultSearchTitle = defaultSearchTitle != null ? defaultSearchTitle : "";
+        console.log("default: "+defaultSearchTitle);
+        this.setState({searchTitle: defaultSearchTitle}, this.retrieveSongList);
+
+        // this.retrieveSongList();
     }
 
 
