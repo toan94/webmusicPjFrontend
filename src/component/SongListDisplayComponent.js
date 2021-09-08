@@ -1,4 +1,4 @@
-import {Button, Card, Col, Container, Dropdown, Form, Row, Spinner} from "react-bootstrap";
+import {Button, Card, Col, Container, Dropdown, Form, Modal, Row, Spinner} from "react-bootstrap";
 import React from "react";
 import {MdAddToQueue, MdPlayArrow, MdCheck, MdMenu, MdMonetizationOn} from "react-icons/md";
 import ReactDOM from 'react-dom';
@@ -7,6 +7,8 @@ import playlistService from "../services/playlistService";
 import songService from "../services/songService";
 import SongActionComponent from "./SongActionComponent";
 import adminService from "../services/adminService";
+import paymentService from "../services/paymentService";
+import StripeButton from "./StripeButton";
 
 
 class SongListDisplayComponent extends React.Component {
@@ -16,6 +18,7 @@ class SongListDisplayComponent extends React.Component {
         this.state = {
             myPlaylists : [],
             belongedPlaylists : [],
+            showOutOfCoin: false
 
         }
     }
@@ -62,11 +65,11 @@ class SongListDisplayComponent extends React.Component {
                                         song.forSale
                                             ? <span className="text-success float-end"><MdMonetizationOn/></span>
                                             : null}
-                                    {
-                                        song.purchased
-                                        ? <span className="text-success float-end">Owned</span>
-                                        : null
-                                    }
+                                    {/*{*/}
+                                    {/*    song.purchased*/}
+                                    {/*    ? <span className="text-success float-end">Owned</span>*/}
+                                    {/*    : null*/}
+                                    {/*}*/}
 
                                 </Card.Header>
                                 <Card.Body>
@@ -77,7 +80,7 @@ class SongListDisplayComponent extends React.Component {
                                     (() =>{
 
 
-                                        if (!this.props.isAdmin && song.purchased) {
+                                        if (!this.props.isAdmin && (song.purchased || !song.forSale )) {
 
                                             return (
 
@@ -153,8 +156,11 @@ class SongListDisplayComponent extends React.Component {
                                         }
                                         else if (!this.props.admin && !song.purchased && song.forSale) {
                                             return (
-                                                <Button onClick={()=>{
-
+                                                <Button variant="outline-success" onClick={()=>{
+                                                    paymentService.buySong(song.artist, song.id, this.props.authHeader).then((res)=>{
+                                                        this.props.retrieveListWithPurchaseState();
+                                                        this.props.setCoinAmount();
+                                                    }).catch(e=>this.setState({showOutOfCoin: true}));
                                                 }}>Buy for 10 Coins</Button>
                                             )
                                         }
@@ -165,7 +171,24 @@ class SongListDisplayComponent extends React.Component {
                         </Col>
                     ))
                 }
+                <Modal
+                    show={this.state.showOutOfCoin}
+                    onHide={()=>this.setState({showOutOfCoin: false})}
+                    backdrop="static"
+                    keyboard={false}
+                    className="text-danger"
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Purchase Failed!</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="d-flex justify-content-center">
+                        <h2>Not Enough Coin</h2>
+                    </Modal.Body>
+
+                </Modal>
             </Row>
+
+
         )
     }
 }

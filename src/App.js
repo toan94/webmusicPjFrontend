@@ -74,6 +74,8 @@ function App() {
     // const [pushdata, setPushdata] = useState('');
     const [time, setTime] = useState('');
     const [activeNotification, setActiveNotification] = useState(false);
+    const [coinAmount, setCoinAmount] = useState(0);
+
 
     // getToken(setTokenFound);
     onMessageListener().then(payload => {
@@ -96,7 +98,11 @@ function App() {
           <>
               {
                   roles.includes("ROLE_ADMIN") ?
-                      <AdminNavBarComponent /> : <NavBarComponent activeNotification={activeNotification} setActiveNotification={setActiveNotification}/>
+                      <AdminNavBarComponent /> : <NavBarComponent activeNotification={activeNotification}
+                                                                  setActiveNotification={setActiveNotification}
+                                                                  coinAmount={coinAmount}
+                                                                  setCoinAmount={setCoinAmount}
+                                                />
               }
 
               {/*<StripeButton price="969" />*/}
@@ -151,7 +157,7 @@ function App() {
                                   <SongUploadComponent />
                               </Route>
                               <Route path="/songs">
-                                  <SongListComponentWithPagination setAudioList={setAudioList} audioList={audioList} history={history} isAuth={isAuthenticated()}/>
+                                  <SongListComponentWithPagination setCoinAmount={setCoinAmount} setAudioList={setAudioList} audioList={audioList} history={history} isAuth={isAuthenticated()}/>
                               </Route>
                               <Route path="/myPlaylists/:playlistId">
                                   <SongListComponentWithPaginationPerPlaylist setAudioList={setAudioList} audioList={audioList} history={history}/>
@@ -163,7 +169,7 @@ function App() {
                                   <SongListComponentPerUser setAudioList={setAudioList} audioList={audioList} self={true}/>
                               </Route>
                               <Route path="/artist/:username">
-                                  <SongListComponentPerUser setAudioList={setAudioList} audioList={audioList} self={false}/>
+                                  <SongListComponentPerUser setCoinAmount={setCoinAmount} setAudioList={setAudioList} audioList={audioList} self={false}/>
                               </Route>
                               <Route path="/admin/artists">
                                   <AdminArtistListComponent history={history} isAdmin={isAdmin}/>

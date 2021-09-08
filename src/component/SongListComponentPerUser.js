@@ -73,7 +73,8 @@ class SongListComponentPerUser extends React.Component{
                                            setAudioList={this.props.setAudioList}
                                            audioList={this.props.audioList}
                                            isMySongs={this.props.self}
-                                           retrieveMySongList={this.retrieveSongList}
+                                           retrieveListWithPurchaseState={this.retrieveSongList}
+                                           setCoinAmount={this.props.setCoinAmount}
 
                 />
             </>

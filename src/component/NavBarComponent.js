@@ -23,7 +23,7 @@ import StripeButton from "./StripeButton";
 import NavContext from "react-bootstrap/NavContext";
 import paymentService from "../services/paymentService";
 
-function NavBarComponent({activeNotification, setActiveNotification}) {
+function NavBarComponent({activeNotification, setActiveNotification, coinAmount, setCoinAmount}) {
 
     const isAuthenticated = useIsAuthenticated()
     let authCheck = isAuthenticated();
@@ -34,7 +34,7 @@ function NavBarComponent({activeNotification, setActiveNotification}) {
     const authHeader = useAuthHeader();
     const [messages, setMessages] = useState([]);
     const [showBuy, setShowBuy] = useState(false);
-    const [coinAmount, setCoinAmount] = useState(0);
+    // const [coinAmount, setCoinAmount] = useState(0);
 
 
     paymentService.getBalance(authHeader()).then((res)=>{
