@@ -21,6 +21,7 @@ import '../css/dropdown.css'
 import notificationService from "../services/notificationService";
 import StripeButton from "./StripeButton";
 import NavContext from "react-bootstrap/NavContext";
+import paymentService from "../services/paymentService";
 
 function NavBarComponent({activeNotification, setActiveNotification}) {
 
@@ -34,6 +35,11 @@ function NavBarComponent({activeNotification, setActiveNotification}) {
     const [messages, setMessages] = useState([]);
     const [showBuy, setShowBuy] = useState(false);
     const [coinAmount, setCoinAmount] = useState(0);
+
+
+    paymentService.getBalance(authHeader()).then((res)=>{
+        setCoinAmount(res.data);
+    }).catch(err=>console.log(err));
 
     let content;
     console.log("navbar authcheck"+authCheck);
@@ -139,7 +145,6 @@ function NavBarComponent({activeNotification, setActiveNotification}) {
                     Register
                 </Nav.Link>
             </>
-
 
     }
     return (
