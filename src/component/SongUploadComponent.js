@@ -52,7 +52,8 @@ class SongUploadComponent extends Component {
             let formData = new FormData();
             formData.append("file", e.target.songFile.files[0]);
             formData.append("songName", e.target.songName.value);
-
+            formData.append("forSale", e.target.forSale.checked);
+        console.log("forsale: "+e.target.forSale.checked);
             axios.post('http://localhost:8080/api/songs/upload', formData,
                 {headers: {'Content-Type': 'multipart/form-data', "Authorization": this.props.authHeader}})
                 .then((res)=>{
@@ -105,7 +106,9 @@ class SongUploadComponent extends Component {
                                 className="form-control ms-3 mt-2"
                             />
 
-
+                            <Input type="checkBox" name="forSale" className="ms-3 mt-2 d-inline-flex " id="checkbox" />
+                            <label htmlFor="checkbox" className="ms-3 d-inline-flex">Mark as for sale</label>
+                            <br/>
 
                             <button className="btn btn-outline-success btn-block login ms-3 mt-3" type="submit">Upload</button>
                             <CheckButton style={{ display: 'none' }} ref={c => { this.checkBtn = c }} />

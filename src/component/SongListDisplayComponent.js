@@ -57,7 +57,7 @@ class SongListDisplayComponent extends React.Component {
                                         this.props.isMySongs ?
                                             // <Button size="sm" variant="light" className="float-end p-0"><MdMenu /></Button>
                                             <>
-                                                <SongActionComponent songId={song.id} retrieveMySongList={this.props.retrieveMySongList}/>
+                                                <SongActionComponent songId={song.id} retrieveMySongList={this.props.retrieveListWithPurchaseState}/>
                                             </>
                                             : null
                                     }
