@@ -2,8 +2,8 @@ import '../css/FooterComponent.css'
 export default function FooterComponent(){
 
     return (
-        <div className="footer-dark">
-            <footer>
+        <div className="footer-dark mt-5">
+            <footer >
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-6 col-md-3 item">

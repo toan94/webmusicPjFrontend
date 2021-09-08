@@ -5,12 +5,14 @@ import songService from "../services/songService";
 import SearchConfigComponent from "./SearchConfigComponent";
 import PaginationComponent from "./PaginationComponent";
 import {withAuthHeader, withIsAuthenticated} from "react-auth-kit";
+import {withRouter} from "react-router-dom";
 
 class SongListComponentWithPagination extends React.Component{
 
 
     constructor(props) {
         super(props);
+        let {genre}  = this.props.match.params;
         this.state = {
             songList : [],
             currentIndex: -1,
@@ -19,11 +21,18 @@ class SongListComponentWithPagination extends React.Component{
             page: 1,
             count: 0,
             pageSize: 9,
+
+            genre: genre
         }
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
         this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
         this.retrieveSongList = this.retrieveSongList.bind(this);
+        this.updateGenre = this.updateGenre.bind(this);
+    }
+
+    updateGenre(genre, callback) {
+        this.setState({genre:genre}, callback)
     }
 
     onChangeSearchTitle(e) {
@@ -48,6 +57,10 @@ class SongListComponentWithPagination extends React.Component{
         if (pageSize) {
             params["size"] = pageSize;
         }
+///////////////////////////////////
+        if (this.state.genre) {
+            params["genre"] = this.state.genre;
+        }
 
         return params;
     }
@@ -55,13 +68,13 @@ class SongListComponentWithPagination extends React.Component{
     retrieveSongList() {
 
         const { searchTitle, page, pageSize } = this.state;
-        const params = this.getRequestParams(searchTitle, page, pageSize);
+        ///////////////////////////////////
+        const params = this.getRequestParams(searchTitle, page, pageSize, this.state.genre);
 
         songService.getSongList(params, this.props.authHeader)
             .then((response) => {
                 console.log(response);
                 const { songList, totalPages } = response.data;
-
                 this.setState({
                     songList: songList,
                     count: totalPages,
@@ -87,8 +100,11 @@ class SongListComponentWithPagination extends React.Component{
     }
 
     componentDidMount() {
+        console.log("inside: "+ this.state.genre);
         this.retrieveSongList();
     }
+
+
 
     handlePageSizeChange(event) {
         this.setState(
@@ -121,6 +137,7 @@ class SongListComponentWithPagination extends React.Component{
                                            audioList={this.props.audioList}
                                            retrieveListWithPurchaseState={this.retrieveSongList}
                                            setCoinAmount={this.props.setCoinAmount}
+                                           updateGenre={this.updateGenre}
                 />
                 <PaginationComponent count={this.state.count} page={this.state.page} handlePageChange={this.handlePageChange}/>
                 {/*<Button onClick={()=>this.props.setAudio([*/}
@@ -132,4 +149,4 @@ class SongListComponentWithPagination extends React.Component{
     }
 }
 
-export default withAuthHeader(SongListComponentWithPagination);
+export default withRouter(withAuthHeader(SongListComponentWithPagination));

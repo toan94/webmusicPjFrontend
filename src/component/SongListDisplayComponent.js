@@ -9,6 +9,7 @@ import SongActionComponent from "./SongActionComponent";
 import adminService from "../services/adminService";
 import paymentService from "../services/paymentService";
 import StripeButton from "./StripeButton";
+import {withRouter} from "react-router-dom";
 
 
 class SongListDisplayComponent extends React.Component {
@@ -31,8 +32,16 @@ class SongListDisplayComponent extends React.Component {
     }
 
 
-
+    componentDidUpdate(prevProps) {
+        if (this.props.location.pathname !== prevProps.location.pathname) {
+            console.log("route changed");
+            let {genre} = this.props.match.params;
+            this.props.updateGenre(genre, this.props.retrieveListWithPurchaseState);
+            // this.props.retrieveListWithPurchaseState();
+        }
+    }
     componentDidMount() {
+
         playlistService.getPlaylistListNoPaging({}, this.props.authHeader).then((res)=>{
             this.setState({myPlaylists : res.data.listOfPlaylist});
             console.log(res);
@@ -74,6 +83,7 @@ class SongListDisplayComponent extends React.Component {
                                 </Card.Header>
                                 <Card.Body>
                                     <Card.Title>{song.name}</Card.Title>
+                                    <span className="text-success">Genre: {song.genre}</span>
                                 </Card.Body>
                                 <Card.Footer>
                                 {
@@ -192,4 +202,4 @@ class SongListDisplayComponent extends React.Component {
         )
     }
 }
-export default withAuthHeader(SongListDisplayComponent);
+export default withRouter(withAuthHeader(SongListDisplayComponent));

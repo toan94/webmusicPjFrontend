@@ -2,6 +2,7 @@ import validator from 'validator';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import React, { Component } from 'react';
+import Select from 'react-validation/build/select'
 import {Button} from "react-bootstrap";
 import { withRouter } from 'react-router-dom';
 import isEmpty from "validator/es/lib/isEmpty";
@@ -53,7 +54,7 @@ class SongUploadComponent extends Component {
             formData.append("file", e.target.songFile.files[0]);
             formData.append("songName", e.target.songName.value);
             formData.append("forSale", e.target.forSale.checked);
-        console.log("forsale: "+e.target.forSale.checked);
+            formData.append("genre", e.target.genre.value);
             axios.post('http://localhost:8080/api/songs/upload', formData,
                 {headers: {'Content-Type': 'multipart/form-data', "Authorization": this.props.authHeader}})
                 .then((res)=>{
@@ -106,9 +107,18 @@ class SongUploadComponent extends Component {
                                 className="form-control ms-3 mt-2"
                             />
 
-                            <Input type="checkBox" name="forSale" className="ms-3 mt-2 d-inline-flex " id="checkbox" />
-                            <label htmlFor="checkbox" className="ms-3 d-inline-flex">Mark as for sale</label>
+
+                            <label htmlFor="checkbox" className="ms-3 mt-3 d-inline-flex">Mark as for sale
+                                <Input type="checkBox" name="forSale" className="ms-2   " id="checkbox" />
+                            </label>
                             <br/>
+
+                            <Select className="ms-3 mt-3" name='genre' value='' validations={[required]}>
+                                <option value=''>Genre</option>
+                                <option value='Rock'>Rock</option>
+                                <option value='Pop'>Pop</option>
+                                <option value='Classical'>Classical</option>
+                            </Select>
 
                             <button className="btn btn-outline-success btn-block login ms-3 mt-3" type="submit">Upload</button>
                             <CheckButton style={{ display: 'none' }} ref={c => { this.checkBtn = c }} />

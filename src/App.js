@@ -1,5 +1,18 @@
 import './App.css'
-import {Button, Card, Col, Container, Image, ListGroup, Nav, Navbar, NavDropdown, Row, Toast} from "react-bootstrap";
+import {
+    Button,
+    Card,
+    Col,
+    Container,
+    Form,
+    Image,
+    ListGroup,
+    Nav,
+    Navbar,
+    NavDropdown,
+    Row,
+    Toast
+} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useEffect, useRef, useState} from 'react'
 import ReactDOM from 'react-dom'
@@ -40,6 +53,8 @@ import AdminArtistListComponent from "./component/AdminArtistListComponent";
 import AdminSongListComponent from "./component/AdminSongListComponent";
 import AddNewAdminComponent from "./component/AddNewAdminComponent";
 import HomeComponent from "./component/HomeComponent";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
 
 
 function App() {
@@ -153,12 +168,17 @@ function App() {
                               <Route path="/register">
                                   <RegisterComponent />
                               </Route>
+                              <Route path="/genre/:genre">
+                                  <SongListComponentWithPagination
+                                      setCoinAmount={setCoinAmount} setAudioList={setAudioList} audioList={audioList} history={history} isAuth={isAuthenticated()}/>
+                              </Route>
                               <Route path="/song/upload">
                                   <SongUploadComponent />
                               </Route>
                               <Route path="/songs">
                                   <SongListComponentWithPagination setCoinAmount={setCoinAmount} setAudioList={setAudioList} audioList={audioList} history={history} isAuth={isAuthenticated()}/>
                               </Route>
+
                               <Route path="/myPlaylists/:playlistId">
                                   <SongListComponentWithPaginationPerPlaylist setAudioList={setAudioList} audioList={audioList} history={history}/>
                               </Route>
@@ -193,26 +213,57 @@ function App() {
                               {/*</Route>*/}
                           </Switch>
                       </Col>
-                      <Col xs={{order: 2}} sm={4} className={"MyListGroup"}>
-                          <ul className="list-group">
-                              <li className="list-group-item text-success">A Place To Share Music</li>
+                      <Col xs={{order: 2}} sm={3} className={"MyListGroup"}>
+                          {/*<ul className="list-group">*/}
+                          {/*    <li className="list-group-item text-success">A Place To Share Music</li>*/}
+                          {/*</ul>*/}
+                          {/*<br/>*/}
+                          {/*<ListGroup as="ul">*/}
+                          {/*    <Image src="https://c4.wallpaperflare.com/wallpaper/941/564/17/1920x1280-px-closeup-lights-musical-instrument-plates-vinyl-animals-bugs-hd-art-wallpaper-preview.jpg" fluid />*/}
+                          {/*</ListGroup>*/}
+                          {/*<br/>*/}
+
+
+                                  <Form>
+                                      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                          <Form.Label className="text-success">Search For Song</Form.Label>
+                                          <Form.Control type="text" placeholder="Song Name" />
+                                      </Form.Group>
+                                  </Form>
+
+                          <br/>
+                          <ul className="list-group d-flex">
+                              <div class="d-flex justify-content-start">
+                                  <Button onClick={()=>{history.push("/genre/Pop")}}
+                                      variant="outline-success flex-grow-1 me-4" className="w-25">Pop</Button>
+                                  <Button onClick={()=>{history.push("/genre/Rock")}}
+                                      variant="outline-success" className=" w-25">Rock</Button>
+                              </div>
+                              <br/>
+                              <div class="d-flex justify-content-evenly" >
+                                  <Button onClick={()=>{history.push("/genre/Classical")}}
+                                      variant="outline-success" className=" w-25 flex-grow-1">Classical</Button>
+                              </div>
+                              <br/>
+                              <div class="d-flex justify-content-evenly">
+                                  <Button variant="outline-success" className=" w-25 flex-grow-1">Topping Up!</Button>
+                                  <Button variant="outline-success" className=" w-25 ms-4">Holder</Button>
+                              </div>
+
+
                           </ul>
                           <br/>
                           <ListGroup as="ul">
-                              <Image src="https://c4.wallpaperflare.com/wallpaper/941/564/17/1920x1280-px-closeup-lights-musical-instrument-plates-vinyl-animals-bugs-hd-art-wallpaper-preview.jpg" fluid />
+                              <Image src="https://360nhatban.net/wp/wp-content/uploads/2017/08/sale.jpg" fluid />
                           </ListGroup>
                           <br/>
-                          {/*<ul className="list-group">*/}
-                          {/*    <li className="list-group-item">Music Is Life</li>*/}
-                          {/*    <li className="list-group-item"><Image src="https://eastonlivingston.com/wp-content/uploads/2021/04/Writing-Music.jpg" fluid /></li>*/}
-                          {/*</ul>*/}
 
                           <ul className="list-group">
-                              <li className="list-group-item text-success">Connect Our Souls Together</li>
+                              <li className="list-group-item text-success">Share The Inspiration</li>
                           </ul>
                           <br/>
                           <ListGroup as="ul">
-                              <Image src="https://eastonlivingston.com/wp-content/uploads/2021/04/Writing-Music.jpg" fluid />
+                              <Image src="https://scrollonline.net/wp-content/uploads/2017/03/Three-Decades-of-Black-Music.jpg" fluid />
                           </ListGroup>
 
 

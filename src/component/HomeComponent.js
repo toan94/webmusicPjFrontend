@@ -1,4 +1,4 @@
-import {Carousel} from "react-bootstrap";
+import {Carousel, Tab, Tabs} from "react-bootstrap";
 
 export default function HomeComponent(){
 
@@ -46,6 +46,8 @@ export default function HomeComponent(){
                 </Carousel.Item>
             </Carousel>
             </div>
+
+
         </>
     )
 }

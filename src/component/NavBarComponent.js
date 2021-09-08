@@ -22,6 +22,7 @@ import notificationService from "../services/notificationService";
 import StripeButton from "./StripeButton";
 import NavContext from "react-bootstrap/NavContext";
 import paymentService from "../services/paymentService";
+import ModalContext from "react-bootstrap/ModalContext";
 
 function NavBarComponent({activeNotification, setActiveNotification, coinAmount, setCoinAmount}) {
 
@@ -116,7 +117,9 @@ function NavBarComponent({activeNotification, setActiveNotification, coinAmount,
                     keyboard={false}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>Purchase Coin</Modal.Title>
+                        <Modal.Title>
+                            Only $1 For Every 10 Coins!
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="d-flex justify-content-center">
                         <StripeButton coin={10} setCointAmount={setCoinAmount} setShowBuy={setShowBuy}/>
@@ -160,7 +163,7 @@ function NavBarComponent({activeNotification, setActiveNotification, coinAmount,
                             <Nav.Link as={NavLink} to='/songs'>Songs</Nav.Link>
 
                         </Nav>
-                        <Nav>
+                        <Nav className="text-center">
 
                             {content}
 
