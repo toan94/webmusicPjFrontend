@@ -29,7 +29,7 @@ import FbApp, {deleteToken, delToken} from './firebase'
 import { getMessaging, onMessage } from "firebase/messaging";
 // import { getToken, onMessageListener } from './firebase';
 import { getToken, onMessageListener } from './firebase';
-import StripeButton from "./component/StripeCheckoutComponent";
+import StripeButton from "./component/StripeButton";
 import SongListComponentWithPaginationPerPlaylist from "./component/SongListComponentPerPlaylist";
 import SongListComponentPerUser from "./component/SongListComponentPerUser";
 import SongUploadComponent from "./component/SongUploadComponent";

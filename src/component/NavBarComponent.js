@@ -3,7 +3,7 @@ import {Button, Container, Dropdown, Modal, Nav, Navbar, NavDropdown} from "reac
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState} from 'react'
 import {MdSearch, MdMusicNote, MdFace, MdFileUpload} from 'react-icons/md'
-import { NotificationImportantSharp, NotificationsNone  } from '@material-ui/icons';
+import { NotificationImportantSharp, NotificationsNone, ShoppingCart  } from '@material-ui/icons';
 
 
 import {
@@ -19,6 +19,8 @@ import {deleteToken, delToken} from "../firebase";
 import firebaseService from "../services/firebaseService";
 import '../css/dropdown.css'
 import notificationService from "../services/notificationService";
+import StripeButton from "./StripeButton";
+import NavContext from "react-bootstrap/NavContext";
 
 function NavBarComponent({activeNotification, setActiveNotification}) {
 
@@ -30,13 +32,18 @@ function NavBarComponent({activeNotification, setActiveNotification}) {
     const [show, setShow] = useState(false);
     const authHeader = useAuthHeader();
     const [messages, setMessages] = useState([]);
-
+    const [showBuy, setShowBuy] = useState(false);
+    const [coinAmount, setCoinAmount] = useState(0);
 
     let content;
     console.log("navbar authcheck"+authCheck);
     if (authCheck) {
         content =
             <>
+
+                <Nav.Link disabled={true} className="text-success font-monospace">You have: <span className="text-light">{coinAmount}</span> Coins</Nav.Link>
+                <Button variant="outline-success" className="me-2" onClick={()=>setShowBuy(true)}><ShoppingCart /></Button>
+
                 <Button variant="outline-success" onClick={()=>history.push('/song/upload')}>Upload Song <MdFileUpload /></Button>
                 <NavDropdown
                     id="nav-dropdown-dark-example"
@@ -94,8 +101,29 @@ function NavBarComponent({activeNotification, setActiveNotification}) {
                             </>
                         ))
                     }
-
                 </NavDropdown>
+
+                <Modal
+                    show={showBuy}
+                    onHide={()=>setShowBuy(false)}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Purchase Coin</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="d-flex justify-content-center">
+                        <StripeButton coin={10} setCointAmount={setCoinAmount} setShowBuy={setShowBuy}/>
+                        <StripeButton coin={50} setCointAmount={setCoinAmount} setShowBuy={setShowBuy}/>
+                        <StripeButton coin={100} setCointAmount={setCoinAmount} setShowBuy={setShowBuy}/>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="outline-danger" onClick={()=>setShowBuy(false)}>
+                            Cancel
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
 
 
 
@@ -125,26 +153,7 @@ function NavBarComponent({activeNotification, setActiveNotification}) {
                             <Nav.Link as={NavLink} to='/Home'>Home</Nav.Link>
                             <Nav.Link as={NavLink} to='/artists'>Artists</Nav.Link>
                             <Nav.Link as={NavLink} to='/songs'>Songs</Nav.Link>
-                            {/*<Form className="d-flex">*/}
-                            {/*    <FormControl*/}
-                            {/*        as="input"*/}
-                            {/*        size="sm"*/}
-                            {/*        type="search"*/}
-                            {/*        placeholder="Search Song Name"*/}
-                            {/*        className="mr-2 "*/}
-                            {/*        aria-label="Search"*/}
-                            {/*    />*/}
-                            {/*    <Button className={"searchButton"} variant="outline-success"><MdSearch /></Button>*/}
-                            {/*</Form>*/}
 
-
-                            {/*<NavDropdown title="Dropdown" id="collasible-nav-dropdown">*/}
-                            {/*    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>*/}
-                            {/*    <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>*/}
-                            {/*    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>*/}
-                            {/*    <NavDropdown.Divider />*/}
-                            {/*    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>*/}
-                            {/*</NavDropdown>*/}
                         </Nav>
                         <Nav>
 
@@ -168,31 +177,6 @@ function NavBarComponent({activeNotification, setActiveNotification}) {
             <Modal.Title>Upload New Avatar</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            {/*<Form onSubmit={*/}
-            {/*    (e)=>{*/}
-            {/*        e.preventDefault();*/}
-            {/*        console.log(e.target.playlistName.value);*/}
-            {/*        playlistService.createNewPlaylist(e.target.playlistName.value,this.props.authHeader).then((res)=>{*/}
-            {/*            this.props.retrieveList();*/}
-            {/*            console.log(res);*/}
-            {/*        });*/}
-            {/*        setShow(false);*/}
-            {/*        // this.props.retrieveList();*/}
-            {/*        // this.props.history.push('/myPlaylist');*/}
-            {/*    }*/}
-            {/*}>*/}
-            {/*    <Form.Group className="mb-3" >*/}
-            {/*        <Form.Label>Playlist Name</Form.Label>*/}
-            {/*        <Form.Control type="text" placeholder="New playlist name" name="playlistName"/>*/}
-            {/*        <Form.Text className="text-muted">*/}
-            {/*            Enter the name of you new playlist*/}
-            {/*        </Form.Text>*/}
-            {/*    </Form.Group>*/}
-
-            {/*    <Button variant="outline-success" type="submit">*/}
-            {/*        Create*/}
-            {/*    </Button>*/}
-            {/*</Form>*/}
 
             <Form className="w-75" onSubmit={(e)=>{
                 e.preventDefault();

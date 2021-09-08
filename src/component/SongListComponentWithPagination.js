@@ -18,7 +18,7 @@ class SongListComponentWithPagination extends React.Component{
 
             page: 1,
             count: 0,
-            pageSize: 3,
+            pageSize: 9,
         }
         this.handlePageChange = this.handlePageChange.bind(this);
         this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
